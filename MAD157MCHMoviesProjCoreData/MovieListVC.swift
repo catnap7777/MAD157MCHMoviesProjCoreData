@@ -63,13 +63,6 @@ class MovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         cell.subText?.text = mRow.xYear
         cell.typeText?.text = mRow.xType
         
-        //.. if using a dictionary instead
-//        var key = Array(self.movieDictionary8.keys)[indexPath.row]
-//        var value = Array(self.movieDictionary8.values)[indexPath.row]
-//        cell.mainText?.text = key
-//        cell.subText?.text = value.mYear
-//        let url = value.mPoster
-        
         let url = mRow.xPoster
         var myImage = UIImage(named: defaultImageArray[0])
         
@@ -119,18 +112,6 @@ class MovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             //print("selected row --->>>>> \(selectedRow)")
             
             let mRowSelected = movieArrayTupSorted2[selectedRow ?? 0]
- 
-            //.. if you used a dictionary instead of an array
-//            var key2 = Array(self.movieDictionary8.keys)[selectedRow ?? 0]
-//            var value2 = Array(self.movieDictionary8.values)[selectedRow ?? 0]
-//            vc.movieTitle = key2
-//            vc.movieYear = value2.mYear
-//            vc.movieType = value2.mType
-//            vc.movieIMDB = value2.mIMDB
-//            vc.moviePoster = value2.mPoster
-            
-//            //.. if you used a func to pass data instead... but not necessary here
-//            vc.setMovieDetail(fTitle: key2)
             
             let vc = segue.destination as! MovieDetailVC
             
@@ -141,30 +122,6 @@ class MovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             vc.moviePoster = mRowSelected.xPoster
             
         }
-
-        //.. **** NOT USED ...Just an example of how to call this function from previous .swift VC (SearchVC.swift)
-//        func kamSetArray(movieArray: [String]) {
-//
-//            var movieArray88: [String] = ["movieArray88 test"]
-//
-//            if !movieArray.isEmpty && movieArray.count >= 1 {
-//                movieArray88 = movieArray
-//                print(movieArray88)
-//
-//            } else {
-//                print("movieArray has nothing in it...")
-//                movieArray88.append("BETTER LUCK NEXT TIME")
-//                print(movieArray88)
-//            }
-//
-//        }
-
-//***** DO NOT DELETE THIS
-//    //.. Controls the size of the cell... not really needed here because of
-//    //..   movieTable.rowHeight = 145 in viewDidLoad
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 150.0
-//    }
     
     
 }

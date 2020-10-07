@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import CoreData
 
 //.. For deleting movies from my movies that are saved in the PLIST
 class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -14,6 +16,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     @IBOutlet var myMoviePicker: UIPickerView!
     @IBOutlet var deleteMyMovieButtonObj: UIButton!
     @IBOutlet var myView: UIView!
+    
+    var dataManager : NSManagedObjectContext!
+    //.. array to hold the database info for loading/saving
+    var listArray = [NSManagedObject]()
     
     var myMovieChosen: String = ""
     var myMovieIMDBChosen: String = ""
@@ -26,11 +32,15 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     var pickerLabel = UILabel()
     
     var mymovies = [
-        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "", comments: "")
+        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
     ]
+    
+//    var mymovies = [
+//        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "", comments: "")
+//    ]
 
-    //.. instantiate plist class
-    let myPlist = PlistStuff2()
+//    //.. instantiate plist class
+//    let myPlist = PlistStuff2()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,25 +49,32 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         myMoviePicker.dataSource = self
         myMoviePicker.delegate = self
         
-        mymovies.removeAll()
-        //.. try to load existing plist... if it doesn't exist, "save"/create it
-        do {
-            //.. try to load
-            let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
-            mymovies = dictionaryPlistLoad1
-            
-            mymovies = mymovies.sorted { $0.name < $1.name }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        dataManager = appDelegate.persistentContainer.viewContext
         
-            } catch {
-                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-                    do {
-                        var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
-                        } catch {
-                            print("..tried to save a 'new' plist but it didn't work")
-                        }
-                    print(error)
-                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-            }
+        
+        mymovies.removeAll()
+        fetchData()
+        
+//
+//        //.. try to load existing plist... if it doesn't exist, "save"/create it
+//        do {
+//            //.. try to load
+//            let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
+//            mymovies = dictionaryPlistLoad1
+//
+//            mymovies = mymovies.sorted { $0.name < $1.name }
+//
+//            } catch {
+//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
+//                    do {
+//                        var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
+//                        } catch {
+//                            print("..tried to save a 'new' plist but it didn't work")
+//                        }
+//                    print(error)
+//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
+//            }
         
         //.. this code is used to set initial values before pickers move
         self.pickerLabel.text = self.mymovies[0].name
@@ -68,36 +85,36 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         myMovieCommentsChosen = mymovies[0].comments
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-            mymovies.removeAll()
-            //.. try to load existing plist... if it doesn't exist, "save"/create it
-            do {
-                //.. try to load
-                let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
-                mymovies = dictionaryPlistLoad1
-                
-                mymovies = mymovies.sorted { $0.name < $1.name }
-            
-                } catch {
-                        //.. if not loaded (ie. not found bc it's new), try to save a new one
-                        do {
-                            var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
-                            } catch {
-                                print("..tried to save a 'new' plist but it didn't work")
-                            }
-                        print(error)
-                        print(".. tried to load an existing plist but it didn't load or wasn't there")
-                }
-            
-            //.. this code is used to set initial values before pickers move
-            self.pickerLabel.text = self.mymovies[0].name
-            myMovieChosen = mymovies[0].name
-            myMovieYearChosen = mymovies[0].year
-            myMovieTypeChosen = mymovies[0].type
-            myMovieIMDBChosen = mymovies[0].imdb
-            myMovieCommentsChosen = mymovies[0].comments
-    }
-    
+//    override func viewWillAppear(_ animated: Bool) {
+//            mymovies.removeAll()
+//            //.. try to load existing plist... if it doesn't exist, "save"/create it
+//            do {
+//                //.. try to load
+//                let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
+//                mymovies = dictionaryPlistLoad1
+//
+//                mymovies = mymovies.sorted { $0.name < $1.name }
+//
+//                } catch {
+//                        //.. if not loaded (ie. not found bc it's new), try to save a new one
+//                        do {
+//                            var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
+//                            } catch {
+//                                print("..tried to save a 'new' plist but it didn't work")
+//                            }
+//                        print(error)
+//                        print(".. tried to load an existing plist but it didn't load or wasn't there")
+//                }
+//
+//            //.. this code is used to set initial values before pickers move
+//            self.pickerLabel.text = self.mymovies[0].name
+//            myMovieChosen = mymovies[0].name
+//            myMovieYearChosen = mymovies[0].year
+//            myMovieTypeChosen = mymovies[0].type
+//            myMovieIMDBChosen = mymovies[0].imdb
+//            myMovieCommentsChosen = mymovies[0].comments
+//    }
+//
 //    override func viewDidAppear(_ animated: Bool) {
 //
 //        mymovies.removeAll()
@@ -199,12 +216,38 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             self.myMoviePicker.reloadAllComponents()
             self.myView.reloadInputViews()
             
-            //.. save the plist
-            do {
-                try self.myPlist.savePropertyList(self.mymovies)
-            } catch {
-                print("..not able to resave plist after attempted delete..")
+//            //.. save the plist
+//            do {
+//                try self.myPlist.savePropertyList(self.mymovies)
+//            } catch {
+//                print("..not able to resave plist after attempted delete..")
+//            }
+            
+            //.. set the String of what you want to delete
+            let deleteItemName = self.myMovieChosen
+            let deleteItemComments = self.myMovieCommentsChosen
+            //.. go through entire array to search for the string you want to delete (deleteItem above)
+            for item in self.listArray {
+                //.. if the value for the attribute/field "name" equals deleteItemName...
+                if (item.value(forKey: "name") as! String == deleteItemName) &&
+                    (item.value(forKey: "comments") as! String == deleteItemComments) {
+                    //.. try to delete the row from what's there
+                    self.dataManager.delete(item)
+                }
+                do {
+                    //**** not sure why you're re-saving this ??? Doesn't the above do that already?
+                    //.. re-save to the db
+                    try self.dataManager.save()
+                } catch {
+                    print ("Error deleting data")
+                }
+//                dispDataHere.text?.removeAll()
+//                enterGuitarDescription.text?.removeAll()
+//                //.. refetch data to redisplay text field
+//                fetchData()
             }
+            
+            
         })
             
         alert.addAction(okAction)
@@ -212,6 +255,50 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         self .present(alert, animated: true, completion: nil )
         
     }
+    
+    //.. read from db
+        func fetchData() {
+            
+            mymovies.removeAll()
+            
+            //.. setup fetch from "Item" in xcdatamodeld
+            let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+            do {
+                //.. try to fetch data
+                let result = try dataManager.fetch(fetchRequest)
+                //.. set the array equal to the results fetched
+                listArray = result as! [NSManagedObject]
+                
+                //.. for each item in the array, do the following..
+                for item in listArray {
+                    //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
+                    //var product = item.value(forKey: "about") as! String
+                    let dName = item.value(forKey: "name") as! String
+                    let dYear = item.value(forKey: "year") as! String
+                    let dType = item.value(forKey: "type") as! String
+                    let dImdb = item.value(forKey: "imdb") as! String
+                    let dPoster = item.value(forKey: "poster") as! String
+                    let dComments = item.value(forKey: "comments") as! String
+                    
+                    let myMovieNameRetrieved = item.value(forKey: "name") as! String
+                    
+                    print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
+                    
+                    mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
+                    //.. do a simple concatenation to show all products that were fetched from db
+                    
+    ////                displayDataHere.text! += product
+    //                print("product = \(product)")
+    //                dispDataHere.text! += ("\(product)\n")
+                    
+                }
+            } catch {
+                print ("Error retrieving data")
+            }
+            
+            mymovies = mymovies.sorted { $0.name < $1.name }
+            
+        }
     
 
 }

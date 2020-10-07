@@ -7,26 +7,37 @@
 //
 
 import UIKit
+import Foundation
+import CoreData
 
 //.. For displaying the list of my movies that I have saved..
 class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var myMoviesTableViewObj: UITableView!
     
+    var dataManager : NSManagedObjectContext!
+    //.. array to hold the database info for loading/saving
+    var listArray = [NSManagedObject]()
+    
     let defaultImageArray = ["posternf.png","pearl.jpg","gitcat.jpg"]
-   
-    //.. PLIST array
+    
+    //.. array to display in tableView... need this so you can sort entries to display
     var mymovies = [
-        PlistStuff2.MyMovie(name: "Initialized Movie - Bug - delete me!", year: "", type: "", imdb: "", poster: "", comments: "")
+        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
     ]
+   
+//    //.. PLIST array
+//    var mymovies = [
+//        PlistStuff2.MyMovie(name: "Initialized Movie - Bug - delete me!", year: "", type: "", imdb: "", poster: "", comments: "")
+//    ]
 //    var mymoviesSorted = [
 //        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "")
 //    ]
     
     let cellID = "cellID"
     
-    //.. instantiate plist class
-    let myPlist = PlistStuff2()
+//    //.. instantiate plist class
+//    let myPlist = PlistStuff2()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,43 +51,51 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         myMoviesTableViewObj.dataSource = self
         myMoviesTableViewObj.delegate = self
         
-        //.. try to load existing plist... if it doesn't exist, "save"/create it
-        do {
-            //.. try to load
-            let dictionaryload = try myPlist.loadPropertyList()
-            mymovies = dictionaryload
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        dataManager = appDelegate.persistentContainer.viewContext
         
-            } catch {
-                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-                    do {
-                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
-                        } catch {
-                            print("..tried to save a 'new' plist but it didn't work")
-                        }
-                    print(error)
-                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-            }
+        fetchData()
+        
+//        //.. try to load existing plist... if it doesn't exist, "save"/create it
+//        do {
+//            //.. try to load
+//            let dictionaryload = try myPlist.loadPropertyList()
+//            mymovies = dictionaryload
+//
+//            } catch {
+//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
+//                    do {
+//                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
+//                        } catch {
+//                            print("..tried to save a 'new' plist but it didn't work")
+//                        }
+//                    print(error)
+//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
+//            }
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //.. try to load existing plist... if it doesn't exist, "save"/create it
-        do {
-            //.. try to load
-            let dictionaryload2 = try myPlist.loadPropertyList()
-            mymovies = dictionaryload2
-            print("****** mymovies = \(mymovies)")
         
-            } catch {
-                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-                    do {
-                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
-                        } catch {
-                            print("..tried to save a 'new' plist but it didn't work")
-                        }
-                    print(error)
-                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-            }
+//        //.. try to load existing plist... if it doesn't exist, "save"/create it
+//        do {
+//            //.. try to load
+//            let dictionaryload2 = try myPlist.loadPropertyList()
+//            mymovies = dictionaryload2
+//            print("****** mymovies = \(mymovies)")
+//
+//            } catch {
+//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
+//                    do {
+//                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
+//                        } catch {
+//                            print("..tried to save a 'new' plist but it didn't work")
+//                        }
+//                    print(error)
+//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
+//            }
+        
+        fetchData()
         self.myMoviesTableViewObj.reloadData()
     }
     
@@ -98,6 +117,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
 //        let mmRow = mymoviesSorted[indexPath.row]
         let mmRow = mymovies[indexPath.row]
+        
                 
         cell.myMovieName?.text = mmRow.name
         cell.myMovieYear?.text = mmRow.year
@@ -177,15 +197,66 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
             
 //                self.mymovies[indexPath.row].year = ("\(savedYear) - \(savedText2)")
                 self.mymovies[indexPath.row].comments = savedText.text ?? movieCommentsSelected
+        
                 
-                //.. save the plist
-                do {
-                    try self.myPlist.savePropertyList(self.mymovies)
-                    //try self.myPlist.savePropertyList(self.movieDictionary)
-                    self.myMoviesTableViewObj.reloadData()
-                } catch {
-                    print("no way... not happening...")
+//                //.. save the plist
+//                do {
+//                    try self.myPlist.savePropertyList(self.mymovies)
+//                    //try self.myPlist.savePropertyList(self.movieDictionary)
+//                    self.myMoviesTableViewObj.reloadData()
+//                } catch {
+//                    print("no way... not happening...")
+//                }
+        
+                //.. do a delete, then add until you can figure out how to update
+                for item in self.listArray {
+                    //.. if the value for the attribute/field "about" equals deleteItem...
+                    if (item.value(forKey: "name") as! String == movieNameSelected) &&
+                        (item.value(forKey: "comments") as! String == movieCommentsSelected) {
+                        //.. try to delete the row from what's there
+                        self.dataManager.delete(item)
+                    }
+                    do {
+                        //**** not sure why you're re-saving this ??? Doesn't the above do that already?
+                        //.. re-save to the db
+                        try self.dataManager.save()
+                    } catch {
+                        print ("Error deleting data")
+                    }
+//                    dispDataHere.text?.removeAll()
+//                    enterGuitarDescription.text?.removeAll()
+//                    //.. refetch data to redisplay text field
+//                    fetchData()
                 }
+        
+        
+                //.. Now save the "new row" with the new comments --- it would be better to just update it
+                do{
+                    //.. try to save in db
+                    try self.dataManager.save()
+                    //.. add new entity to array
+                    //********************* may need to update comments in listArray here
+                    let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: self.dataManager)
+                    //.. for "about" attribute/field in table "Item" in xcdatamodeld
+                    newEntity.setValue(self.mymovies[indexPath.row].name, forKey: "name")
+                    newEntity.setValue(self.mymovies[indexPath.row].year, forKey: "year")
+                    newEntity.setValue(self.mymovies[indexPath.row].type, forKey: "type")
+                    newEntity.setValue(self.mymovies[indexPath.row].imdb, forKey: "imdb")
+                    newEntity.setValue(self.mymovies[indexPath.row].poster, forKey: "poster")
+                    newEntity.setValue(self.mymovies[indexPath.row].comments, forKey: "comments")
+                    
+                    self.listArray.append(newEntity)
+                    
+                    print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
+                    
+                } catch{
+                    print ("Error saving data")
+                    print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
+                    print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
+                }
+                
+                //print("$$$$$$ newEntity = \(newEntity)")
+        
            })
 
                //..adds the button to the alert controller and next line presents or displays the alert controller
@@ -194,5 +265,49 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                 self.present(alert, animated: true , completion: nil)
         }
     
+    
+    //.. read from db
+    func fetchData() {
+        
+        mymovies.removeAll()
+        
+        //.. setup fetch from "Item" in xcdatamodeld
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        do {
+            //.. try to fetch data
+            let result = try dataManager.fetch(fetchRequest)
+            //.. set the array equal to the results fetched
+            listArray = result as! [NSManagedObject]
+            
+            //.. for each item in the array, do the following..
+            for item in listArray {
+                //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
+                //var product = item.value(forKey: "about") as! String
+                let dName = item.value(forKey: "name") as! String
+                let dYear = item.value(forKey: "year") as! String
+                let dType = item.value(forKey: "type") as! String
+                let dImdb = item.value(forKey: "imdb") as! String
+                let dPoster = item.value(forKey: "poster") as! String
+                let dComments = item.value(forKey: "comments") as! String
+                
+                let myMovieNameRetrieved = item.value(forKey: "name") as! String
+                
+                print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
+                
+                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
+                //.. do a simple concatenation to show all products that were fetched from db
+                
+////                displayDataHere.text! += product
+//                print("product = \(product)")
+//                dispDataHere.text! += ("\(product)\n")
+                
+            }
+        } catch {
+            print ("Error retrieving data")
+        }
+        
+    }
+
+
 
 }
