@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import CoreData
 
 //.. Detail movie info for one of the movies that was "selected" (clicked on)
 //..   in the tableView of the movies that came back from the API search
@@ -18,6 +20,10 @@ class MovieDetailVC: UIViewController {
     @IBOutlet var imdbLabel: UILabel!
     @IBOutlet var detailImage: UIImageView!
     @IBOutlet var commentsText: UITextView!
+    
+    var dataManager : NSManagedObjectContext!
+    //.. array to hold the database info for loading/saving
+    var listArray = [NSManagedObject]()
     
     //.. used if calling function to set var/lable
     //var testString = "Test String"
@@ -45,6 +51,11 @@ class MovieDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        dataManager = appDelegate.persistentContainer.viewContext
+        
+        print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
         
         mymovies.removeAll()
         
@@ -98,20 +109,50 @@ class MovieDetailVC: UIViewController {
     
     @IBAction func saveMyMovieButtonPressed(_ sender: Any) {
         
-        do {
-            mymovies = try myPlist.loadPropertyList()
-            } catch {
-                print(error)
-                print("$$$ MovieDetailVC.. nope... did NOT load plist")
-            }
-        
+//        do {
+//            mymovies = try myPlist.loadPropertyList()
+//            } catch {
+//                print(error)
+//                print("$$$ MovieDetailVC.. nope... did NOT load plist")
+//            }
+//
         movieComments = commentsText.text
         
-        mymovies.append(PlistStuff2.MyMovie(name: movieTitle, year: movieYear, type: movieType, imdb: movieIMDB, poster: moviePoster, comments: movieComments))
+//        mymovies.append(PlistStuff2.MyMovie(name: movieTitle, year: movieYear, type: movieType, imdb: movieIMDB, poster: moviePoster, comments: movieComments))
+//
+//        //.. save the plist
+//        do {
+//            try myPlist.savePropertyList(mymovies)
+//            print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
+//            //.. if it saved, show an alert
+//            let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
+//            let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
+//                //Just dismiss the action sheet
+//                })
+//            alert2.addAction(okAction2)
+//            self.present(alert2, animated: true, completion: nil )
+//
+//        } catch {
+//            print("$$$ MovieDetailVC ..tried to save plist but it didn't work")
+//            print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
+//        }
         
-        //.. save the plist
-        do {
-            try myPlist.savePropertyList(mymovies)
+        //.. for "Item" table in xcdatamodeld
+        let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: dataManager)
+        //.. for "about" attribute/field in table "Item" in xcdatamodeld
+        newEntity.setValue(movieTitle, forKey: "name")
+        newEntity.setValue(movieYear, forKey: "year")
+        newEntity.setValue(movieType, forKey: "type")
+        newEntity.setValue(movieIMDB, forKey: "imdb")
+        newEntity.setValue(moviePoster, forKey: "poster")
+        newEntity.setValue(movieComments, forKey: "comments")
+        
+        do{
+            //.. try to save in db
+            try self.dataManager.save()
+            //.. add new entity to array
+            listArray.append(newEntity)
+            
             print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
             //.. if it saved, show an alert
             let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
@@ -120,12 +161,19 @@ class MovieDetailVC: UIViewController {
                 })
             alert2.addAction(okAction2)
             self.present(alert2, animated: true, completion: nil )
-
-        } catch {
+        } catch{
+            print ("Error saving data")
             print("$$$ MovieDetailVC ..tried to save plist but it didn't work")
             print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
         }
         
+        print("$$$$$$ newEntity = \(newEntity)")
+        
+//            dispDataHere.text?.removeAll()
+//            enterGuitarDescription.text?.removeAll()
+//            //.. refetch data to redisplay
+//            fetchData()
+//        }
             
             //.. want to save "new" movie if it doesn't already exist (name/year/type)
             
