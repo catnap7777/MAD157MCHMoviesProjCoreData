@@ -8,6 +8,8 @@
 
 import UIKit
 
+//.. Detail movie info for one of the movies that was "selected" (clicked on)
+//..   in the tableView of the movies that came back from the API search
 class MovieDetailVC: UIViewController {
 
     @IBOutlet var movieTitleLabel: UILabel!
@@ -29,10 +31,10 @@ class MovieDetailVC: UIViewController {
     
     let defaultImageArray = ["posternf.png"]
     
+    //.. PLIST
     //.. NOTE: complex dictionary objects (objects with key:tuple - called CFType) cannot be saved in a plist
     //..  Old movieDictionary is for the plist; not using anymore. Using mymovies structure.
     //var movieDictionary: [String : String] = [:]
-    
     var mymovies = [
         PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "", comments: "")
     ]

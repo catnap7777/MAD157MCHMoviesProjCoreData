@@ -8,17 +8,15 @@
 
 import UIKit
 
-
-
+//.. Populate a tableView with the list of movies that came back from the search criteria
 class MovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    
 
     @IBOutlet var movieTable: UITableView!
     @IBOutlet var labelName: UILabel!
     
     var finalName = ""
     
+    //.. array used for movie API info coming back
     var movieArrayTupSorted2: [(xName: String, xYear: String, xType: String, xIMDB: String, xPoster: String)] = [("","","","","")]
     
     let defaultImageArray = ["posternf.png","pearl.jpg","gitcat.jpg"]

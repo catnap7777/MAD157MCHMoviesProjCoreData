@@ -8,11 +8,13 @@
 
 import UIKit
 
+//.. Search the API to get a list of movies matching the search criteria entered
 class SearchVC: UIViewController {
 
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var searchButton: UIButton!
     
+    //.. array used for movie API info coming back
     var movieArrayTup: [(xName: String, xYear: String, xType: String, xIMDB: String, xPoster: String)] = [("","","","","")]
     
     var searchText = ""

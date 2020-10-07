@@ -8,12 +8,14 @@
 
 import UIKit
 
+//.. For displaying the list of my movies that I have saved..
 class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var myMoviesTableViewObj: UITableView!
     
     let defaultImageArray = ["posternf.png","pearl.jpg","gitcat.jpg"]
    
+    //.. PLIST array
     var mymovies = [
         PlistStuff2.MyMovie(name: "Initialized Movie - Bug - delete me!", year: "", type: "", imdb: "", poster: "", comments: "")
     ]

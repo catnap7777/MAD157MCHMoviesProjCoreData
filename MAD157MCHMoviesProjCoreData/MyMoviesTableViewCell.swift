@@ -8,6 +8,7 @@
 
 import UIKit
 
+//.. Custom cell that's used for the list of my movies that come back from the PLIST of saved movies
 class MyMoviesTableViewCell: UITableViewCell {
 
     @IBOutlet var myMovieName: UILabel!

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//.. Custom cell that's used for the list of movies that come back from the API search
 class TableViewCell: UITableViewCell {
 
     @IBOutlet var mainText: UILabel!
