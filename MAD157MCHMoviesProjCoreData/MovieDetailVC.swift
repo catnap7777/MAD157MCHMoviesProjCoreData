@@ -115,11 +115,8 @@ class MovieDetailVC: UIViewController {
                 //.. to set the "title" in blue
                 alert2.setValue(NSAttributedString(string: alert2.title ?? "nada", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium), NSAttributedString.Key.foregroundColor : UIColor.blue]), forKey: "attributedTitle")
                 
-//                let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
-//                    //Just dismiss the action sheet
-//                })
                 //.. style: .destructive = red "OK" button; .default = black
-                let okAction2 = UIAlertAction(title: "OK", style: .destructive, handler: { action -> Void in
+                let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
                     //Just dismiss the action sheet
                 })
                 alert2.addAction(okAction2)
