@@ -151,7 +151,7 @@ class MovieDetailVC: UIViewController {
             //.. try to save in db
             try self.dataManager.save()
             //.. add new entity to array
-            listArray.append(newEntity)
+            //listArray.append(newEntity)
             
             //print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
             //.. if it saved, show an alert
