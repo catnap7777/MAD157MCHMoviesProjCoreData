@@ -126,6 +126,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         //let movieCommentsSelected = mmRowSelected.comments
         let movieCommentsSelected = mmRowSelected.value(forKey: "comments") as! String
         
+        let movieIMDBSelect = mmRowSelected.value(forKey: "imdb") as! String
+        
         let alert = UIAlertController(title: "Your Choice", message: "\(movieNameSelected)", preferredStyle: .alert)
 
         alert.addTextField(configurationHandler: {(textField) in textField.placeholder = "Enter new comments here..."
@@ -141,28 +143,17 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
        let okAction = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
                //.. called savedText, which represents the first text field (note the index value of 0) on the alert controller. If you add more than one text field to an alert controller, you’ll need to define additional constants to represent those other text fields
 
-                let savedText = alert.textFields![0] as UITextField
+        let savedText: String = alert.textFields![0].text ?? "nice try karen"
+        
+        let savedText2: NSString = savedText as NSString
 
+                //.. try to update the listArray and then save it
+        //listArray[indexPath.row].value(forKey: "comments") = savedText
+//                let updateEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: self.dataManager)
+//        let updateEntity = NSEntityDescription.
+        self.listArray[indexPath.row].setValue(savedText2, forKey: "comments")
+        
                 //self.mymovies[indexPath.row].comments = savedText.text ?? movieCommentsSelected
-        
-                //.. do a delete, then add until you can figure out how to update
-                for item in self.listArray {
-                    //.. if the value for the attribute/field "name" equals deleteItem...
-                    if (item.value(forKey: "name") as! String == movieNameSelected) &&
-                        (item.value(forKey: "comments") as! String == movieCommentsSelected) {
-                        //.. try to delete the row from what's there
-                        self.dataManager.delete(item)
-                    }
-                    do {
-                        //**** not sure why you're re-saving this ??? Doesn't the above do that already?
-                        //.. re-save to the db
-                        try self.dataManager.save()
-                    } catch {
-                        print ("Error deleting data")
-                    }
-
-                }
-        
         
                 //.. Now save the "new row" with the new comments --- it would be better to just update it
                 do{
@@ -170,33 +161,35 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                     try self.dataManager.save()
                     //.. add new entity to array
                     //********************* may need to update comments in listArray here
-                    let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: self.dataManager)
-                    //.. for "about" attribute/field in table "Item" in xcdatamodeld
+//                    let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: self.dataManager)
+//                    //.. for "about" attribute/field in table "Item" in xcdatamodeld
 //                    newEntity.setValue(self.mymovies[indexPath.row].name, forKey: "name")
 //                    newEntity.setValue(self.mymovies[indexPath.row].year, forKey: "year")
 //                    newEntity.setValue(self.mymovies[indexPath.row].type, forKey: "type")
 //                    newEntity.setValue(self.mymovies[indexPath.row].imdb, forKey: "imdb")
 //                    newEntity.setValue(self.mymovies[indexPath.row].poster, forKey: "poster")
 //                    newEntity.setValue(self.mymovies[indexPath.row].comments, forKey: "comments")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "name"), forKey: "name")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "year"), forKey: "year")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "type"), forKey: "type")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "imdb"), forKey: "imdb")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "poster"), forKey: "poster")
-                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "comments"), forKey: "comments")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "name"), forKey: "name")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "year"), forKey: "year")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "type"), forKey: "type")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "imdb"), forKey: "imdb")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "poster"), forKey: "poster")
+//                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "comments"), forKey: "comments")
                     
                     
-                    self.listArray.append(newEntity)
+                    //self.listArray.append(newEntity)
                     
                     //print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
                     
                 } catch{
-                    print ("Error saving data")
+                    print ("Error saving updated data")
                     print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
                     //print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
                 }
                 
-                //print("$$$$$$ newEntity = \(newEntity)")
+        print("$$$$$$ updatedRow name = \(self.listArray[indexPath.row].value(forKey: "name"))")
+        print("$$$$$$ updatedRow imdb = \(self.listArray[indexPath.row].value(forKey: "imdb"))")
+        print("$$$$$$ updatedRow comments = \(self.listArray[indexPath.row].value(forKey: "comments"))")
         
            })
 
@@ -220,6 +213,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         //.. setup fetch from "Item" in xcdatamodeld
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        
+        //.. do this if you're trying to sort it when it's coming back as part of the fetch request..
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -229,22 +224,25 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
             //.. set the array equal to the results fetched
             listArray = result as! [NSManagedObject]
             
-            //.. for each item in the array, do the following..
-            for item in listArray {
-                //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
-                //var product = item.value(forKey: "about") as! String
-                let dName = item.value(forKey: "name") as! String
-                let dYear = item.value(forKey: "year") as! String
-                let dType = item.value(forKey: "type") as! String
-                let dImdb = item.value(forKey: "imdb") as! String
-                let dPoster = item.value(forKey: "poster") as! String
-                let dComments = item.value(forKey: "comments") as! String
-                
-                let myMovieNameRetrieved = item.value(forKey: "name") as! String
-                
-                print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
-                
-//                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
+            //.. just display what's in the db right now... not really needed... but helps for debugging
+            if !listArray.isEmpty {
+                //.. for each item in the array, do the following..
+                for item in listArray {
+                    //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
+                    //var product = item.value(forKey: "about") as! String
+                    //                let dName = item.value(forKey: "name") as! String
+                    //                let dYear = item.value(forKey: "year") as! String
+                    //                let dType = item.value(forKey: "type") as! String
+                    //                let dImdb = item.value(forKey: "imdb") as! String
+                    //                let dPoster = item.value(forKey: "poster") as! String
+                    //                let dComments = item.value(forKey: "comments") as! String
+                    
+                    let myMovieNameRetrieved = item.value(forKey: "name") as! String
+                    print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
+                    
+                    //                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
+            }
+            
                 
             }
         } catch {
