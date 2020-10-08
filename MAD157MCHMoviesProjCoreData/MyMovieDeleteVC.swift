@@ -76,10 +76,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         
         pickerLabel = UILabel()
     
-        pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
+        pickerLabel.text = (self.listArray[row].value(forKey: "name") as! String)
         //pickerLabel.text = mymovies[row].name
         
-        print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[0].value(forKey: "name") as! String))")
+        print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[row].value(forKey: "name") as! String))")
 
         if UIDevice.current.userInterfaceIdiom == .pad {
             pickerLabel.font = UIFont.systemFont(ofSize: 18)
@@ -131,7 +131,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         let okAction = UIAlertAction(title: "Delete", style: .default, handler: { action -> Void in
             
             //.. remove the key
-            print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieComments)")
+            print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieCommentsChosen)")
             
 //            //*********
 //            print("$$$ mymovies BEFORE key removed = \(self.mymovies)")
@@ -141,34 +141,55 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
 //            self.mymovies = self.mymovies.sorted { $0.name < $1.name }
 //            print("$$$ mymovies AFTER key removed and after SORT = \(self.mymovies)")
 //
-            //.. redisplay the "newly updated" picker (since a row was deleted)
-            self.myMoviePicker.reloadAllComponents()
-            self.myView.reloadInputViews()
+//            //.. redisplay the "newly updated" picker (since a row was deleted)
+//            self.myMoviePicker.reloadAllComponents()
+//            self.myView.reloadInputViews()
             
             //.. set the String of what you want to delete
-            let deleteItemName = self.myMovieChosen
-            let deleteItemComments = self.myMovieCommentsChosen
-            let deleteItemImdb = self.myMovieIMDBChosen
+            let deleteName = self.myMovieChosen
+            let deleteComments = self.myMovieCommentsChosen
             
+            let deleteImdb: NSString = self.myMovieIMDBChosen as NSString
+            
+            print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
+            
+            //.. use the index for the picker to remove the correct "row"
+            //self.listArray.remove(at: self.pickerTypeIndex)
             
             ///****************************************************
-            //.. go through entire array to search for the string you want to delete (deleteItem above)
-            for item in self.listArray {
-                //.. if the value for the attribute/field "name" equals deleteItemName...
-                if (item.value(forKey: "name") as! String == deleteItemName) &&
-                    (item.value(forKey: "comments") as! String == deleteItemComments) {
-                    //.. try to delete the row from what's there
-                    self.dataManager.delete(item)
-                }
+//            //.. go through entire array to search for the string you want to delete (deleteItem above)
+//            for item in self.listArray {
+//                //.. if the value for the attribute/field "name" equals deleteItemName...
+//                if (item.value(forKey: "imdb") as! String == deleteImdb) {
+//                    //.. try to delete the row from what's there
+//                    self.dataManager.delete(item)
+//                }
+            
+//            let listArrayDeleteItem: NSManagedObject = self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! NSManagedObject
+            
+//            if (self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! NSString) == deleteImdb {
+                //.. try to delete the row from what's there
+                //.. use the index for the picker to remove the correct "row"
+                //self.listArray.remove(at: self.pickerTypeIndex)
+            self.dataManager.delete(self.listArray[self.pickerTypeIndex])
+            
+                //self.listArray.remove(at: self.pickerTypeIndex)
+//            }
+            //.. resave the data... appDelegate knows that there were changes and adjusts accordingly
                 do {
                     //**** not sure why you're re-saving this ??? Doesn't the above do that already?
                     //.. re-save to the db
                     try self.dataManager.save()
+                    //.. redisplay the "newly updated" picker (since a row was deleted)
+                    self.listArray.removeAll()
+                    self.fetchData()
+                    self.myMoviePicker.reloadAllComponents()
+                    self.myView.reloadInputViews()
                 } catch {
                     print ("Error deleting data")
                 }
 
-            }
+//            }
             
             
         })
