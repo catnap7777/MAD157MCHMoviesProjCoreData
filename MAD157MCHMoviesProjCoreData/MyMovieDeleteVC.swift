@@ -31,9 +31,9 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     var pickerTypeIndex = 0
     var pickerLabel = UILabel()
     
-    var mymovies = [
-        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
-    ]
+//    var mymovies = [
+//        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
+//    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,16 +45,23 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataManager = appDelegate.persistentContainer.viewContext
         
-        mymovies.removeAll()
+        //mymovies.removeAll()
+        listArray.removeAll()
         fetchData()
         
         //.. this code is used to set initial values before pickers move
-        self.pickerLabel.text = self.mymovies[0].name
-        myMovieChosen = mymovies[0].name
-        myMovieYearChosen = mymovies[0].year
-        myMovieTypeChosen = mymovies[0].type
-        myMovieIMDBChosen = mymovies[0].imdb
-        myMovieCommentsChosen = mymovies[0].comments
+//        self.pickerLabel.text = self.mymovies[0].name
+//        myMovieChosen = mymovies[0].name
+//        myMovieYearChosen = mymovies[0].year
+//        myMovieTypeChosen = mymovies[0].type
+//        myMovieIMDBChosen = mymovies[0].imdb
+//        myMovieCommentsChosen = mymovies[0].comments
+        self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
+//        myMovieChosen = mymovies[0].name
+//        myMovieYearChosen = mymovies[0].year
+//        myMovieTypeChosen = mymovies[0].type
+//        myMovieIMDBChosen = mymovies[0].imdb
+//        myMovieCommentsChosen = mymovies[0].comments
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -62,16 +69,17 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return mymovies.count
+        return listArray.count
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         pickerLabel = UILabel()
     
-        pickerLabel.text = mymovies[row].name
+        pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
+        //pickerLabel.text = mymovies[row].name
         
-        print("pickerlabel \(pickerLabel.text) - \(mymovies[row].name)")
+        print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[0].value(forKey: "name") as! String))")
 
         if UIDevice.current.userInterfaceIdiom == .pad {
             pickerLabel.font = UIFont.systemFont(ofSize: 18)
@@ -100,11 +108,17 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         //    trying to delete the last row -> index out of bounds
         pickerTypeIndex = myMoviePicker.selectedRow(inComponent: 0)
         print("@@@@@@@@@ pickerTypeIndex AFTER = \(pickerTypeIndex)")
-        self.myMovieChosen = self.mymovies[self.pickerTypeIndex].name
-        self.myMovieYearChosen = self.mymovies[self.pickerTypeIndex].year
-        self.myMovieTypeChosen = self.mymovies[self.pickerTypeIndex].type
-        self.myMovieIMDBChosen = self.mymovies[self.pickerTypeIndex].imdb
-        self.myMovieCommentsChosen = self.mymovies[self.pickerTypeIndex].comments
+        
+//        self.myMovieChosen = self.mymovies[self.pickerTypeIndex].name
+//        self.myMovieYearChosen = self.mymovies[self.pickerTypeIndex].year
+//        self.myMovieTypeChosen = self.mymovies[self.pickerTypeIndex].type
+//        self.myMovieIMDBChosen = self.mymovies[self.pickerTypeIndex].imdb
+//        self.myMovieCommentsChosen = self.mymovies[self.pickerTypeIndex].comments
+        self.myMovieChosen = self.listArray[self.pickerTypeIndex].value(forKey: "name") as! String
+        self.myMovieYearChosen = self.listArray[self.pickerTypeIndex].value(forKey: "year") as! String
+        self.myMovieTypeChosen = self.listArray[self.pickerTypeIndex].value(forKey: "type") as! String
+        self.myMovieIMDBChosen = self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! String
+        self.myMovieCommentsChosen = self.listArray[self.pickerTypeIndex].value(forKey: "comments") as! String
         
         let msg = "Are you sure you want to delete... \n\n- Movie: \(myMovieChosen) \n\n- Year: \(myMovieYearChosen) \n- Type: \(myMovieTypeChosen) \n- Imdb: \(myMovieIMDBChosen) \n- Comments: \(myMovieCommentsChosen)\n???"
             
@@ -117,16 +131,16 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         let okAction = UIAlertAction(title: "Delete", style: .default, handler: { action -> Void in
             
             //.. remove the key
-            print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)")
+            print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieComments)")
             
-            //*********
-            print("$$$ mymovies BEFORE key removed = \(self.mymovies)")
-            self.mymovies.remove(at: self.pickerTypeIndex)
-            print("$$$ mymovies AFTER key removed = \(self.mymovies)")
-            
-            self.mymovies = self.mymovies.sorted { $0.name < $1.name }
-            print("$$$ mymovies AFTER key removed and after SORT = \(self.mymovies)")
-            
+//            //*********
+//            print("$$$ mymovies BEFORE key removed = \(self.mymovies)")
+//            self.mymovies.remove(at: self.pickerTypeIndex)
+//            print("$$$ mymovies AFTER key removed = \(self.mymovies)")
+//
+//            self.mymovies = self.mymovies.sorted { $0.name < $1.name }
+//            print("$$$ mymovies AFTER key removed and after SORT = \(self.mymovies)")
+//
             //.. redisplay the "newly updated" picker (since a row was deleted)
             self.myMoviePicker.reloadAllComponents()
             self.myView.reloadInputViews()
@@ -134,6 +148,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             //.. set the String of what you want to delete
             let deleteItemName = self.myMovieChosen
             let deleteItemComments = self.myMovieCommentsChosen
+            let deleteItemImdb = self.myMovieIMDBChosen
+            
+            
+            ///****************************************************
             //.. go through entire array to search for the string you want to delete (deleteItem above)
             for item in self.listArray {
                 //.. if the value for the attribute/field "name" equals deleteItemName...
@@ -162,43 +180,54 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     }
     
     //.. read from db
-        func fetchData() {
+    func fetchData() {
+        
+        //mymovies.removeAll()
+        
+        //.. from https://stackoverflow.com/questions/35417012/sorting-nsmanagedobject-array
+//        let fetchRequest = NSFetchRequest(entityName: CoreDataValues.EntityName)
+//        let sortDescriptor = NSSortDescriptor(key: CoreDataValues.CreationDateKey, ascending: true)
+//        fetchRequest.sortDescriptors = [sortDescriptor]
+//        do {
+        
+        //.. setup fetch from "Item" in xcdatamodeld
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        
+        //.. do this if you're trying to sort it when it's coming back as part of the fetch request..
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        do {
+            //.. try to fetch data
+            let result = try dataManager.fetch(fetchRequest)
+            //.. set the array equal to the results fetched
+            listArray = result as! [NSManagedObject]
             
-            mymovies.removeAll()
-            
-            //.. setup fetch from "Item" in xcdatamodeld
-            let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
-            do {
-                //.. try to fetch data
-                let result = try dataManager.fetch(fetchRequest)
-                //.. set the array equal to the results fetched
-                listArray = result as! [NSManagedObject]
-                
+            //.. just display what's in the db right now... not really needed... but helps for debugging
+            if !listArray.isEmpty {
                 //.. for each item in the array, do the following..
                 for item in listArray {
                     //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
                     //var product = item.value(forKey: "about") as! String
-                    let dName = item.value(forKey: "name") as! String
-                    let dYear = item.value(forKey: "year") as! String
-                    let dType = item.value(forKey: "type") as! String
-                    let dImdb = item.value(forKey: "imdb") as! String
-                    let dPoster = item.value(forKey: "poster") as! String
-                    let dComments = item.value(forKey: "comments") as! String
+                    //                let dName = item.value(forKey: "name") as! String
+                    //                let dYear = item.value(forKey: "year") as! String
+                    //                let dType = item.value(forKey: "type") as! String
+                    //                let dImdb = item.value(forKey: "imdb") as! String
+                    //                let dPoster = item.value(forKey: "poster") as! String
+                    //                let dComments = item.value(forKey: "comments") as! String
                     
                     let myMovieNameRetrieved = item.value(forKey: "name") as! String
-                    
                     print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
                     
-                    mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
-                    
-                }
-            } catch {
-                print ("Error retrieving data")
+                    //                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
             }
             
-            mymovies = mymovies.sorted { $0.name < $1.name }
-            
+                
+            }
+        } catch {
+            print ("Error retrieving data")
         }
-    
+        
+    }
 
 }
