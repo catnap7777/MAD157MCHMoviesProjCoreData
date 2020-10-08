@@ -35,13 +35,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
     ]
     
-//    var mymovies = [
-//        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "", comments: "")
-//    ]
-
-//    //.. instantiate plist class
-//    let myPlist = PlistStuff2()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,29 +45,8 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataManager = appDelegate.persistentContainer.viewContext
         
-        
         mymovies.removeAll()
         fetchData()
-        
-//
-//        //.. try to load existing plist... if it doesn't exist, "save"/create it
-//        do {
-//            //.. try to load
-//            let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
-//            mymovies = dictionaryPlistLoad1
-//
-//            mymovies = mymovies.sorted { $0.name < $1.name }
-//
-//            } catch {
-//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-//                    do {
-//                        var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
-//                        } catch {
-//                            print("..tried to save a 'new' plist but it didn't work")
-//                        }
-//                    print(error)
-//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-//            }
         
         //.. this code is used to set initial values before pickers move
         self.pickerLabel.text = self.mymovies[0].name
@@ -84,63 +56,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         myMovieIMDBChosen = mymovies[0].imdb
         myMovieCommentsChosen = mymovies[0].comments
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//            mymovies.removeAll()
-//            //.. try to load existing plist... if it doesn't exist, "save"/create it
-//            do {
-//                //.. try to load
-//                let dictionaryPlistLoad1 = try myPlist.loadPropertyList()
-//                mymovies = dictionaryPlistLoad1
-//
-//                mymovies = mymovies.sorted { $0.name < $1.name }
-//
-//                } catch {
-//                        //.. if not loaded (ie. not found bc it's new), try to save a new one
-//                        do {
-//                            var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
-//                            } catch {
-//                                print("..tried to save a 'new' plist but it didn't work")
-//                            }
-//                        print(error)
-//                        print(".. tried to load an existing plist but it didn't load or wasn't there")
-//                }
-//
-//            //.. this code is used to set initial values before pickers move
-//            self.pickerLabel.text = self.mymovies[0].name
-//            myMovieChosen = mymovies[0].name
-//            myMovieYearChosen = mymovies[0].year
-//            myMovieTypeChosen = mymovies[0].type
-//            myMovieIMDBChosen = mymovies[0].imdb
-//            myMovieCommentsChosen = mymovies[0].comments
-//    }
-//
-//    override func viewDidAppear(_ animated: Bool) {
-//
-//        mymovies.removeAll()
-//
-//        //.. try to load existing plist... if it doesn't exist, "save"/create it
-//        do {
-//            //.. try to load
-//            let dictionaryPlistLoad2 = try myPlist.loadPropertyList()
-//            //movieDictionary = dictionaryload
-//            mymovies = dictionaryPlistLoad2
-//
-//            mymovies = mymovies.sorted { $0.name < $1.name }
-//
-//            } catch {
-//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-//                    do {
-//                        var dictionaryPlistInitSave = try myPlist.savePropertyList(mymovies)
-//                        } catch {
-//                            print("..tried to save a 'new' plist but it didn't work")
-//                        }
-//                    print(error)
-//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-//            }
-//
-//        self.myMoviePicker.reloadAllComponents()
-//    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -216,13 +131,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             self.myMoviePicker.reloadAllComponents()
             self.myView.reloadInputViews()
             
-//            //.. save the plist
-//            do {
-//                try self.myPlist.savePropertyList(self.mymovies)
-//            } catch {
-//                print("..not able to resave plist after attempted delete..")
-//            }
-            
             //.. set the String of what you want to delete
             let deleteItemName = self.myMovieChosen
             let deleteItemComments = self.myMovieCommentsChosen
@@ -241,10 +149,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                 } catch {
                     print ("Error deleting data")
                 }
-//                dispDataHere.text?.removeAll()
-//                enterGuitarDescription.text?.removeAll()
-//                //.. refetch data to redisplay text field
-//                fetchData()
+
             }
             
             
@@ -285,11 +190,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                     print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
                     
                     mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
-                    //.. do a simple concatenation to show all products that were fetched from db
-                    
-    ////                displayDataHere.text! += product
-    //                print("product = \(product)")
-    //                dispDataHere.text! += ("\(product)\n")
                     
                 }
             } catch {

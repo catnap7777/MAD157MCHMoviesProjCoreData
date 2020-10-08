@@ -22,9 +22,9 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     let defaultImageArray = ["posternf.png","pearl.jpg","gitcat.jpg"]
     
     //.. array to display in tableView... need this so you can sort entries to display
-    var mymovies = [
-        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
-    ]
+//    var mymovies = [
+//        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
+//    ]
     
     let cellID = "cellID"
     
@@ -55,7 +55,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mymovies.count
+        //return mymovies.count
+        return listArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,19 +68,25 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                 cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle,reuseIdentifier: cellID) as! MyMoviesTableViewCell
                 }
 
-        mymovies = mymovies.sorted { $0.name < $1.name }
+        //mymovies = mymovies.sorted { $0.name < $1.name }
         
 //        let mmRow = mymoviesSorted[indexPath.row]
-        let mmRow = mymovies[indexPath.row]
+        //let mmRow = mymovies[indexPath.row]
+        let mmRow = listArray[indexPath.row]
         
-        cell.myMovieName?.text = mmRow.name
-        cell.myMovieYear?.text = mmRow.year
-        cell.myMovieType?.text = mmRow.type
-        cell.myMovieComments?.text = mmRow.comments
+//        cell.myMovieName?.text = mmRow.name
+//        cell.myMovieYear?.text = mmRow.year
+//        cell.myMovieType?.text = mmRow.type
+//        cell.myMovieComments?.text = mmRow.comments
+        cell.myMovieName?.text = (mmRow.value(forKey: "name") as! String)
+        cell.myMovieYear?.text = (mmRow.value(forKey: "year") as! String)
+        cell.myMovieType?.text = (mmRow.value(forKey: "type") as! String)
+        cell.myMovieComments?.text = (mmRow.value(forKey: "comments") as! String)
         
-        print("****************** myMovieComments = \(mmRow.comments)")
+        print("****************** myMovieComments = \(mmRow.value(forKey: "comments") as! String)")
         
-        let url = mmRow.poster
+        //let url = mmRow.poster
+        let url = mmRow.value(forKey: "poster") as! String
         var myImage = UIImage(named: defaultImageArray[0])
         
         if url == "" {
@@ -111,10 +118,13 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         print("You tapped cell number \(indexPath.row).")
         
         //********* maybe use same type of code in MovieDetailVC
-        var mmRowSelected = mymovies[indexPath.row]
-        let movieNameSelected = mmRowSelected.name
+        //var mmRowSelected = mymovies[indexPath.row]
+        var mmRowSelected = listArray[indexPath.row]
+        //let movieNameSelected = mmRowSelected.name
+        let movieNameSelected = mmRowSelected.value(forKey: "name") as! String
         //var movieYearSelected = mmRowSelected.year
-        let movieCommentsSelected = mmRowSelected.comments
+        //let movieCommentsSelected = mmRowSelected.comments
+        let movieCommentsSelected = mmRowSelected.value(forKey: "comments") as! String
         
         let alert = UIAlertController(title: "Your Choice", message: "\(movieNameSelected)", preferredStyle: .alert)
 
@@ -133,11 +143,11 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
 
                 let savedText = alert.textFields![0] as UITextField
 
-                self.mymovies[indexPath.row].comments = savedText.text ?? movieCommentsSelected
+                //self.mymovies[indexPath.row].comments = savedText.text ?? movieCommentsSelected
         
                 //.. do a delete, then add until you can figure out how to update
                 for item in self.listArray {
-                    //.. if the value for the attribute/field "about" equals deleteItem...
+                    //.. if the value for the attribute/field "name" equals deleteItem...
                     if (item.value(forKey: "name") as! String == movieNameSelected) &&
                         (item.value(forKey: "comments") as! String == movieCommentsSelected) {
                         //.. try to delete the row from what's there
@@ -162,21 +172,28 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                     //********************* may need to update comments in listArray here
                     let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: self.dataManager)
                     //.. for "about" attribute/field in table "Item" in xcdatamodeld
-                    newEntity.setValue(self.mymovies[indexPath.row].name, forKey: "name")
-                    newEntity.setValue(self.mymovies[indexPath.row].year, forKey: "year")
-                    newEntity.setValue(self.mymovies[indexPath.row].type, forKey: "type")
-                    newEntity.setValue(self.mymovies[indexPath.row].imdb, forKey: "imdb")
-                    newEntity.setValue(self.mymovies[indexPath.row].poster, forKey: "poster")
-                    newEntity.setValue(self.mymovies[indexPath.row].comments, forKey: "comments")
+//                    newEntity.setValue(self.mymovies[indexPath.row].name, forKey: "name")
+//                    newEntity.setValue(self.mymovies[indexPath.row].year, forKey: "year")
+//                    newEntity.setValue(self.mymovies[indexPath.row].type, forKey: "type")
+//                    newEntity.setValue(self.mymovies[indexPath.row].imdb, forKey: "imdb")
+//                    newEntity.setValue(self.mymovies[indexPath.row].poster, forKey: "poster")
+//                    newEntity.setValue(self.mymovies[indexPath.row].comments, forKey: "comments")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "name"), forKey: "name")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "year"), forKey: "year")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "type"), forKey: "type")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "imdb"), forKey: "imdb")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "poster"), forKey: "poster")
+                     newEntity.setValue(self.listArray[indexPath.row].value(forKey: "comments"), forKey: "comments")
+                    
                     
                     self.listArray.append(newEntity)
                     
-                    print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
+                    //print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
                     
                 } catch{
                     print ("Error saving data")
                     print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
-                    print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
+                    //print("$$$ MovieDetailVC - mymovies coreData save attempt - \(self.mymovies)")
                 }
                 
                 //print("$$$$$$ newEntity = \(newEntity)")
@@ -193,10 +210,19 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     //.. read from db
     func fetchData() {
         
-        mymovies.removeAll()
+        //mymovies.removeAll()
+        
+        //.. from https://stackoverflow.com/questions/35417012/sorting-nsmanagedobject-array
+//        let fetchRequest = NSFetchRequest(entityName: CoreDataValues.EntityName)
+//        let sortDescriptor = NSSortDescriptor(key: CoreDataValues.CreationDateKey, ascending: true)
+//        fetchRequest.sortDescriptors = [sortDescriptor]
+//        do {
         
         //.. setup fetch from "Item" in xcdatamodeld
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
         do {
             //.. try to fetch data
             let result = try dataManager.fetch(fetchRequest)
@@ -218,12 +244,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                 
                 print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
                 
-                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
-                //.. do a simple concatenation to show all products that were fetched from db
-                
-////                displayDataHere.text! += product
-//                print("product = \(product)")
-//                dispDataHere.text! += ("\(product)\n")
+//                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
                 
             }
         } catch {
