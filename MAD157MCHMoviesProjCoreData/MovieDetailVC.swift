@@ -89,71 +89,117 @@ class MovieDetailVC: UIViewController {
     }
     
     @IBAction func saveMyMovieButtonPressed(_ sender: Any) {
- 
+        
+        listArray.removeAll()
+        fetchData()
+        
         movieComments = commentsText.text
+        print("12391840750375 in saveMyMovieButtonPressed")
+        print("movie name = \(movieTitle)  movie imdb = \(movieIMDB)")
         
-        //.. for "Item" table in xcdatamodeld
-        let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: dataManager)
-        //.. for "about" attribute/field in table "Item" in xcdatamodeld
-        newEntity.setValue(movieTitle, forKey: "name")
-        newEntity.setValue(movieYear, forKey: "year")
-        newEntity.setValue(movieType, forKey: "type")
-        newEntity.setValue(movieIMDB, forKey: "imdb")
-        newEntity.setValue(moviePoster, forKey: "poster")
-        newEntity.setValue(movieComments, forKey: "comments")
+        var foundFlag = false
         
-        do{
-            //.. try to save in db
-            try self.dataManager.save()
-            //.. add new entity to array
-            //listArray.append(newEntity)
-            
-            //.. if it saved, show an alert
-            let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
-            let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
-                //Just dismiss the action sheet
+        for item in listArray {
+            if item.value(forKey: "imdb") as! String == movieIMDB {
+                //.. it's already in db so do nothing but alert and set foundFlag
+                foundFlag = true
+                
+                let alert2 = UIAlertController(title: "Message", message: "Movie Already Exists in My Movies", preferredStyle: .alert)
+                //.. from https://stackoverflow.com/questions/27895886/uialertcontroller-change-font-color
+                //.. make text in alert message red
+                //alert2.view.tintColor = UIColor.red
+                //.. tints whole box red
+                alert2.view.backgroundColor = UIColor.red
+                //.. to set the "message" in red and "title" in blue
+                alert2.setValue(NSAttributedString(string: alert2.message ?? "nope", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium), NSAttributedString.Key.foregroundColor : UIColor.red]), forKey: "attributedMessage")
+                //.. to set the "title" in blue
+                alert2.setValue(NSAttributedString(string: alert2.title ?? "nada", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium), NSAttributedString.Key.foregroundColor : UIColor.blue]), forKey: "attributedTitle")
+                
+//                let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
+//                    //Just dismiss the action sheet
+//                })
+                //.. style: .destructive = red "OK" button; .default = black
+                let okAction2 = UIAlertAction(title: "OK", style: .destructive, handler: { action -> Void in
+                    //Just dismiss the action sheet
                 })
-            alert2.addAction(okAction2)
-            self.present(alert2, animated: true, completion: nil )
-        } catch{
-            print ("Error saving data")
-            print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
+                alert2.addAction(okAction2)
+                self.present(alert2, animated: true, completion: nil )
+                print("!@*$&*%*#^%#^ movie already in db - \(movieTitle)")
+            }  //.. end if
+        } //.. end for
+            
+        if !foundFlag {
+            //.. movie not already found in db
+            print("!@*$&*%*#^%#^ trying to insert movie in db - \(movieTitle)")
+            //.. insert it into db
+            //.. for "Item" table in xcdatamodeld
+            let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: dataManager)
+            //.. for "about" attribute/field in table "Item" in xcdatamodeld
+            newEntity.setValue(movieTitle, forKey: "name")
+            newEntity.setValue(movieYear, forKey: "year")
+            newEntity.setValue(movieType, forKey: "type")
+            newEntity.setValue(movieIMDB, forKey: "imdb")
+            newEntity.setValue(moviePoster, forKey: "poster")
+            newEntity.setValue(movieComments, forKey: "comments")
+            
+            do{
+                //.. try to save in db
+                try self.dataManager.save()
+                //.. add new entity to array
+                //listArray.append(newEntity)
+                
+                //.. if it saved, show an alert
+                let alert3 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
+                let okAction3 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
+                    //Just dismiss the action sheet
+                })
+                alert3.addAction(okAction3)
+                self.present(alert3, animated: true, completion: nil )
+            } catch{
+                print ("Error saving data")
+                print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
+            }
+            
+            print("$$$$$$ newEntity = \(newEntity)")
+            //fetchData()
+            
+            foundFlag = false
+            
+        }  //.. end if
+            
+        
+        
+    } //.. end saveMyButtonPressed
+    
+    //.. read from db - FOR THIS PARTICULAR ONE, IS THERE A WAY TO FETCH ONLY TO SEE IF THE MOVIE (VIA IMDB) IS ALREADY IN THERE OR DO I HAVE TO READ THE WHOLE THING?
+    func fetchData() {
+        
+        //.. setup fetch from "Item" in xcdatamodeld
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        do {
+            //.. try to fetch data
+            let result = try dataManager.fetch(fetchRequest)
+            //.. set the array equal to the results fetched
+            listArray = result as! [NSManagedObject]
+            
+            //.. for each item in the array, do the following..
+            for item in listArray {
+                //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
+                //var product = item.value(forKey: "about") as! String
+                let myMovieNameRetrieved = item.value(forKey: "name") as! String
+                print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
+            }
+            
+            } catch {
+                print ("Error retrieving data")
+            }
+            
         }
-        
-        print("$$$$$$ newEntity = \(newEntity)")
-        //fetchData()
-        
-    }
-    
-//    //.. read from db
-//    func fetchData() {
-//        
-//        //.. setup fetch from "Item" in xcdatamodeld
-//        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
-//        do {
-//            //.. try to fetch data
-//            let result = try dataManager.fetch(fetchRequest)
-//            //.. set the array equal to the results fetched
-//            listArray = result as! [NSManagedObject]
-//            
-//            //.. for each item in the array, do the following..
-//            for item in listArray {
-//                //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
-//                //var product = item.value(forKey: "about") as! String
-//                let myMovieNameRetrieved = item.value(forKey: "name") as! String
-//                print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
-//            }
-//            
-//            } catch {
-//                print ("Error retrieving data")
-//            }
-//            
-//        }
-    
+//
 //    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 //         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
 //         return newText.count < 10
 //    }
-//
+
     
 }
