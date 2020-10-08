@@ -99,6 +99,9 @@ class MovieDetailVC: UIViewController {
         
         var foundFlag = false
         
+        //.. after fetch (fetchData() below), which is now looking for the specific
+        //..  movie via imdb number, check to see if movie is already out there in db or not
+        
         for item in listArray {
             if item.value(forKey: "imdb") as! String == movieIMDB {
                 //.. it's already in db so do nothing but alert and set foundFlag
@@ -126,7 +129,7 @@ class MovieDetailVC: UIViewController {
         } //.. end for
             
         if !foundFlag {
-            //.. movie not already found in db
+            //.. movie not already found in db, so insert/save it
             print("!@*$&*%*#^%#^ trying to insert movie in db - \(movieTitle)")
             //.. insert it into db
             //.. for "Item" table in xcdatamodeld
@@ -168,17 +171,32 @@ class MovieDetailVC: UIViewController {
         
     } //.. end saveMyButtonPressed
     
-    //.. read from db - FOR THIS PARTICULAR ONE, IS THERE A WAY TO FETCH ONLY TO SEE IF THE MOVIE (VIA IMDB) IS ALREADY IN THERE OR DO I HAVE TO READ THE WHOLE THING?
+    //.. read from db - FOR THE PARTICULAR MOVIE ROW THAT'S BEING SEARCH FOR TO SEE
+    //..   IF IT'S ALREADY IN THE DB
     func fetchData() {
         
-        //.. setup fetch from "Item" in xcdatamodeld
-        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        //.. from https://stackoverflow.com/questions/45675149/how-to-fetch-only-one-column-data-in-core-data-using-swift-3
+        //        let fetchRequest = NSFetchRequest<NSDictionary>(entityName: TesCalculation.entity().name!)
+        //        fetchRequest.resultType = .dictionaryResultType
+        //        fetchRequest.predicate = NSPredicate(format: "testID == %@ ",testID)
+        
+        //.. fetching for particular row - use PREDICATE
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        fetchRequest.predicate = NSPredicate(format: "imdb == %@ ",movieIMDB)
+        
+        //.. setup fetch from "Item" in xcdatamodeld -> below = "old" way and it works
+//        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+        
         do {
             //.. try to fetch data
             let result = try dataManager.fetch(fetchRequest)
             //.. set the array equal to the results fetched
             listArray = result as! [NSManagedObject]
+            print("listArray = \(listArray)")
             
+            if listArray.isEmpty {
+                print("listArray is empty...ie movie \(movieTitle) not found")
+            }
             //.. for each item in the array, do the following..
             for item in listArray {
                 //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
