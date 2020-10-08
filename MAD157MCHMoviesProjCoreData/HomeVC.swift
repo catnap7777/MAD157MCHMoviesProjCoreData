@@ -23,10 +23,8 @@ class HomeVC: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-    
 
     @IBAction func enterButtonPressed(_ sender: Any) {
-        
         
     }
     

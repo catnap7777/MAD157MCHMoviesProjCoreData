@@ -22,7 +22,6 @@
 		3A42E476252D739400AD6156 /* MyMoviesListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42E475252D739300AD6156 /* MyMoviesListVC.swift */; };
 		3A42E478252D73C900AD6156 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42E477252D73C900AD6156 /* MyMoviesTableViewCell.swift */; };
 		3A42E47A252D73F400AD6156 /* MyMovieDeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42E479252D73F400AD6156 /* MyMovieDeleteVC.swift */; };
-		3A42E47C252D742000AD6156 /* PlistStuff2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42E47B252D742000AD6156 /* PlistStuff2.swift */; };
 		3A42E47E252D757400AD6156 /* gitcat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3A42E47D252D757400AD6156 /* gitcat.jpg */; };
 		3A42E487252D758F00AD6156 /* posternotfound.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 3A42E47F252D758F00AD6156 /* posternotfound.JPG */; };
 		3A42E488252D758F00AD6156 /* tygermatrix303.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A42E480252D758F00AD6156 /* tygermatrix303.png */; };
@@ -52,7 +51,6 @@
 		3A42E475252D739300AD6156 /* MyMoviesListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesListVC.swift; sourceTree = "<group>"; };
 		3A42E477252D73C900AD6156 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 		3A42E479252D73F400AD6156 /* MyMovieDeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieDeleteVC.swift; sourceTree = "<group>"; };
-		3A42E47B252D742000AD6156 /* PlistStuff2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistStuff2.swift; sourceTree = "<group>"; };
 		3A42E47D252D757400AD6156 /* gitcat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gitcat.jpg; sourceTree = SOURCE_ROOT; };
 		3A42E47F252D758F00AD6156 /* posternotfound.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = posternotfound.JPG; sourceTree = SOURCE_ROOT; };
 		3A42E480252D758F00AD6156 /* tygermatrix303.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tygermatrix303.png; sourceTree = SOURCE_ROOT; };
@@ -106,7 +104,6 @@
 				3A42E475252D739300AD6156 /* MyMoviesListVC.swift */,
 				3A42E477252D73C900AD6156 /* MyMoviesTableViewCell.swift */,
 				3A42E479252D73F400AD6156 /* MyMovieDeleteVC.swift */,
-				3A42E47B252D742000AD6156 /* PlistStuff2.swift */,
 				3A42E485252D758F00AD6156 /* hp.png */,
 				3A42E484252D758F00AD6156 /* pearl.jpg */,
 				3A42E481252D758F00AD6156 /* popcorn2_wo_middle3.jpg */,
@@ -206,7 +203,6 @@
 			files = (
 				3A42E46C252D72EB00AD6156 /* SearchVC.swift in Sources */,
 				3A42E470252D732100AD6156 /* TableViewCell.swift in Sources */,
-				3A42E47C252D742000AD6156 /* PlistStuff2.swift in Sources */,
 				3A42E478252D73C900AD6156 /* MyMoviesTableViewCell.swift in Sources */,
 				3A42E45D252D723100AD6156 /* MAD157MCHMoviesProjCoreData.xcdatamodeld in Sources */,
 				3A42E46A252D72DA00AD6156 /* HomeVC.swift in Sources */,

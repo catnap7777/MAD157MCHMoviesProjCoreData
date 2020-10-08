@@ -25,9 +25,6 @@ class MovieDetailVC: UIViewController {
     //.. array to hold the database info for loading/saving
     var listArray = [NSManagedObject]()
     
-    //.. used if calling function to set var/lable
-    //var testString = "Test String"
-    
     var movieTitle = ""
     var movieYear = ""
     var movieType = ""
@@ -36,17 +33,6 @@ class MovieDetailVC: UIViewController {
     var movieComments = ""
     
     let defaultImageArray = ["posternf.png"]
-    
-//    //.. PLIST
-//    //.. NOTE: complex dictionary objects (objects with key:tuple - called CFType) cannot be saved in a plist
-//    //..  Old movieDictionary is for the plist; not using anymore. Using mymovies structure.
-//    //var movieDictionary: [String : String] = [:]
-//    var mymovies = [
-//        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "", comments: "")
-//    ]
-//
-//    //.. instantiate plist class
-//    let myPlist = PlistStuff2()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,16 +43,11 @@ class MovieDetailVC: UIViewController {
         
         print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
         
-//        mymovies.removeAll()
-        
-        //testLabel.text = testString
         movieTitleLabel.text = movieTitle
         yearLabel.text = movieYear
         typeLabel.text = movieType
         imdbLabel.text = movieIMDB
         //posterLabel.text = moviePoster
-        
-    
                 
         //        let url = URL(string: "https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681")
         
@@ -108,34 +89,8 @@ class MovieDetailVC: UIViewController {
     }
     
     @IBAction func saveMyMovieButtonPressed(_ sender: Any) {
-        
-//        do {
-//            mymovies = try myPlist.loadPropertyList()
-//            } catch {
-//                print(error)
-//                print("$$$ MovieDetailVC.. nope... did NOT load plist")
-//            }
-//
+ 
         movieComments = commentsText.text
-        
-//        mymovies.append(PlistStuff2.MyMovie(name: movieTitle, year: movieYear, type: movieType, imdb: movieIMDB, poster: moviePoster, comments: movieComments))
-//
-//        //.. save the plist
-//        do {
-//            try myPlist.savePropertyList(mymovies)
-//            print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
-//            //.. if it saved, show an alert
-//            let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
-//            let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
-//                //Just dismiss the action sheet
-//                })
-//            alert2.addAction(okAction2)
-//            self.present(alert2, animated: true, completion: nil )
-//
-//        } catch {
-//            print("$$$ MovieDetailVC ..tried to save plist but it didn't work")
-//            print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
-//        }
         
         //.. for "Item" table in xcdatamodeld
         let newEntity = NSEntityDescription.insertNewObject(forEntityName:"MyMovieTable", into: dataManager)
@@ -153,7 +108,6 @@ class MovieDetailVC: UIViewController {
             //.. add new entity to array
             //listArray.append(newEntity)
             
-            //print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
             //.. if it saved, show an alert
             let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
             let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
@@ -163,107 +117,43 @@ class MovieDetailVC: UIViewController {
             self.present(alert2, animated: true, completion: nil )
         } catch{
             print ("Error saving data")
-            print("$$$ MovieDetailVC ..tried to save plist but it didn't work")
-            //print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
+            print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
         }
         
         print("$$$$$$ newEntity = \(newEntity)")
-        fetchData()
+        //fetchData()
         
-//            dispDataHere.text?.removeAll()
-//            enterGuitarDescription.text?.removeAll()
-//            //.. refetch data to redisplay
-//            fetchData()
-//        }
-            
-            //.. want to save "new" movie if it doesn't already exist (name/year/type)
-            
-//            for item in mymovies {
-//                print("...inside the for loop --- item = \(item)")
-        
-            
-//                    print("^^^^^^^ duplicate movie....... --- item.imdb = \(item.imdb)  movieIMDB = \(movieIMDB)")
-//                    //.. movie already in mymovies - so do nothing
-//                    //.. if it did not save, show an alert
-//                    let alert1 = UIAlertController(title: "Message", message: "Movie Already Exists in My Movies", preferredStyle: .alert)
-//                    let okAction1 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
-//                        //Just dismiss the action sheet
-//                        })
-//                    alert1.addAction(okAction1)
-//                    self.present(alert1, animated: true, completion: nil )
-//                } else {
-//                    print("^^^^^^^ insert movie........")
-//                    //.. insert new movie
-//                    mymovies.append(PlistStuff2.MyMovie(name: movieTitle, year: movieYear, type: movieType, imdb: movieIMDB, poster: moviePoster))
-//                    //.. save the plist
-//                    do {
-//                        try myPlist.savePropertyList(mymovies)
-//                        print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
-//                    } catch {
-//                         print("$$$ MovieDetailVC ..tried to save plist but it didn't work")
-//                        print("$$$ MovieDetailVC - mymovies plist save attempt - \(mymovies)")
-//                    }
-//                    //.. if it saved, show an alert
-//                    let alert2 = UIAlertController(title: "Message", message: "Movie Saved to My Movies :)", preferredStyle: .alert)
-//                    let okAction2 = UIAlertAction(title: "OK", style: .default, handler: { action -> Void in
-//                        //Just dismiss the action sheet
-//                        })
-//                    alert2.addAction(okAction2)
-//                    self.present(alert2, animated: true, completion: nil )
-//
-//                }
-////            }
-//
-//        } catch {
-//            print(error)
-//            print("$$$ MovieDetailVC.. nope... did NOT save/update plist with 'new' movie... why not?")
-//        }
     }
     
-    //.. read from db
-        func fetchData() {
-            
-            //.. setup fetch from "Item" in xcdatamodeld
-            let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
-            do {
-                //.. try to fetch data
-                let result = try dataManager.fetch(fetchRequest)
-                //.. set the array equal to the results fetched
-                listArray = result as! [NSManagedObject]
-                
-                //.. for each item in the array, do the following..
-                for item in listArray {
-                    //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
-                    //var product = item.value(forKey: "about") as! String
-                    let myMovieNameRetrieved = item.value(forKey: "name") as! String
-//                    let dName = item.value(forKey: "name") as! String
-//                    let dYear = item.value(forKey: "year") as! String
-//                    let dType = item.value(forKey: "type") as! String
-//                    let dImdb = item.value(forKey: "imdb") as! String
-//                    let dPoster = item.value(forKey: "poster") as! String
-//                    let dComments = item.value(forKey: "comments") as! String
-//
-//                    mymovies.removeAll()
-//                    mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
-                    //.. do a simple concatenation to show all products that were fetched from db
-                    
-    ////                displayDataHere.text! += product
-    //                print("product = \(product)")
-    //                dispDataHere.text! += ("\(product)\n")
-                    
-                    print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
-                    
-                }
-            } catch {
-                print ("Error retrieving data")
-            }
-            
-        }
+//    //.. read from db
+//    func fetchData() {
+//        
+//        //.. setup fetch from "Item" in xcdatamodeld
+//        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "MyMovieTable")
+//        do {
+//            //.. try to fetch data
+//            let result = try dataManager.fetch(fetchRequest)
+//            //.. set the array equal to the results fetched
+//            listArray = result as! [NSManagedObject]
+//            
+//            //.. for each item in the array, do the following..
+//            for item in listArray {
+//                //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
+//                //var product = item.value(forKey: "about") as! String
+//                let myMovieNameRetrieved = item.value(forKey: "name") as! String
+//                print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
+//            }
+//            
+//            } catch {
+//                print ("Error retrieving data")
+//            }
+//            
+//        }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-         return newText.count < 10
-    }
-          
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+//         return newText.count < 10
+//    }
+//
     
 }

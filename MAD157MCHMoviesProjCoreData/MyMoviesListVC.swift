@@ -25,19 +25,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     var mymovies = [
         (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
     ]
-   
-//    //.. PLIST array
-//    var mymovies = [
-//        PlistStuff2.MyMovie(name: "Initialized Movie - Bug - delete me!", year: "", type: "", imdb: "", poster: "", comments: "")
-//    ]
-//    var mymoviesSorted = [
-//        PlistStuff2.MyMovie(name: "", year: "", type: "", imdb: "", poster: "")
-//    ]
     
     let cellID = "cellID"
-    
-//    //.. instantiate plist class
-//    let myPlist = PlistStuff2()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,45 +45,10 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         fetchData()
         
-//        //.. try to load existing plist... if it doesn't exist, "save"/create it
-//        do {
-//            //.. try to load
-//            let dictionaryload = try myPlist.loadPropertyList()
-//            mymovies = dictionaryload
-//
-//            } catch {
-//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-//                    do {
-//                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
-//                        } catch {
-//                            print("..tried to save a 'new' plist but it didn't work")
-//                        }
-//                    print(error)
-//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-//            }
-       
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-//        //.. try to load existing plist... if it doesn't exist, "save"/create it
-//        do {
-//            //.. try to load
-//            let dictionaryload2 = try myPlist.loadPropertyList()
-//            mymovies = dictionaryload2
-//            print("****** mymovies = \(mymovies)")
-//
-//            } catch {
-//                    //.. if not loaded (ie. not found bc it's new), try to save a new one
-//                    do {
-//                        var dictionaryInitSave = try myPlist.savePropertyList(mymovies)
-//                        } catch {
-//                            print("..tried to save a 'new' plist but it didn't work")
-//                        }
-//                    print(error)
-//                    print(".. tried to load an existing plist but it didn't load or wasn't there")
-//            }
-        
+
         fetchData()
         self.myMoviesTableViewObj.reloadData()
     }
@@ -118,20 +72,12 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
 //        let mmRow = mymoviesSorted[indexPath.row]
         let mmRow = mymovies[indexPath.row]
         
-                
         cell.myMovieName?.text = mmRow.name
         cell.myMovieYear?.text = mmRow.year
         cell.myMovieType?.text = mmRow.type
         cell.myMovieComments?.text = mmRow.comments
         
         print("****************** myMovieComments = \(mmRow.comments)")
-            
-//.. if using a dictionary instead
-//        var key = Array(self.movieDictionary8.keys)[indexPath.row]
-//        var value = Array(self.movieDictionary8.values)[indexPath.row]
-//        cell.mainText?.text = key
-//        cell.subText?.text = value.mYear
-//        let url = value.mPoster
         
         let url = mmRow.poster
         var myImage = UIImage(named: defaultImageArray[0])
@@ -172,9 +118,6 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         let alert = UIAlertController(title: "Your Choice", message: "\(movieNameSelected)", preferredStyle: .alert)
 
-//       alert.addTextField(configurationHandler: {(textField) in                textField.placeholder = "Your Comments here..."
-//           //textField.isSecureTextEntry = true
-//       })
         alert.addTextField(configurationHandler: {(textField) in textField.placeholder = "Enter new comments here..."
             //textField.isSecureTextEntry = true
         })
@@ -189,24 +132,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                //.. called savedText, which represents the first text field (note the index value of 0) on the alert controller. If you add more than one text field to an alert controller, you’ll need to define additional constants to represent those other text fields
 
                 let savedText = alert.textFields![0] as UITextField
-        
-//                let savedText2: String  = savedText.text ?? ""
-//
-//                //.. save the year from the movie
-//                let savedYear = String(movieValueSelected.prefix(4))
-            
-//                self.mymovies[indexPath.row].year = ("\(savedYear) - \(savedText2)")
+
                 self.mymovies[indexPath.row].comments = savedText.text ?? movieCommentsSelected
-        
-                
-//                //.. save the plist
-//                do {
-//                    try self.myPlist.savePropertyList(self.mymovies)
-//                    //try self.myPlist.savePropertyList(self.movieDictionary)
-//                    self.myMoviesTableViewObj.reloadData()
-//                } catch {
-//                    print("no way... not happening...")
-//                }
         
                 //.. do a delete, then add until you can figure out how to update
                 for item in self.listArray {
@@ -223,10 +150,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                     } catch {
                         print ("Error deleting data")
                     }
-//                    dispDataHere.text?.removeAll()
-//                    enterGuitarDescription.text?.removeAll()
-//                    //.. refetch data to redisplay text field
-//                    fetchData()
+
                 }
         
         
