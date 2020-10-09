@@ -16,6 +16,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     @IBOutlet var myMoviePicker: UIPickerView!
     @IBOutlet var deleteMyMovieButtonObj: UIButton!
     @IBOutlet var myView: UIView!
+    @IBOutlet var pickerPickedLabel: UILabel!
     
     var dataManager : NSManagedObjectContext!
     //.. array to hold the database info for loading/saving
@@ -44,8 +45,9 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         listArray.removeAll()
         fetchData()
        
+        //.. for picker itself
         self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
-
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +71,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         
         pickerLabel = UILabel()
     
+        //.. in the picker itself
         pickerLabel.text = (self.listArray[row].value(forKey: "year") as! String) + "/" + (self.listArray[row].value(forKey: "type") as! String) + " - " + (self.listArray[row].value(forKey: "name") as! String) 
         
         //pickerLabel.text = mymovies[row].name
@@ -90,6 +93,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         pickerTypeIndex = myMoviePicker.selectedRow(inComponent: 0)
+        
+        //.. info that goes in the label for the row that's picked
+        pickerPickedLabel.text = (self.listArray[row].value(forKey: "year") as! String) + "/" + (self.listArray[row].value(forKey: "type") as! String) + " - " + (self.listArray[row].value(forKey: "name") as! String)
+        
     }
 
     @IBAction func deleteMyMoviePressed(_ sender: Any) {
@@ -145,6 +152,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                     self.fetchData()
                     print("******* listArray after save and after re-fetch of data ==== \(self.listArray)")
                     
+                    self.pickerPickedLabel.text = ""
                     self.myMoviePicker.reloadAllComponents()
                     self.myView.reloadInputViews()
                 } catch {

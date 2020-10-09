@@ -253,12 +253,20 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scroll to select movie to delete..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWr-TI-uxM">
                                 <rect key="frame" x="36" y="109" width="342" height="41"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="41" id="dQb-bt-2vD"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="41" id="f3z-uY-OBk"/>
-                                    <constraint firstAttribute="width" constant="342" id="nNb-fQ-Cff"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="342" id="zy6-xk-45X"/>
+                                    <constraint firstAttribute="width" constant="342" id="mIO-5v-5W3"/>
+                                    <constraint firstAttribute="height" constant="41" id="mc7-yw-s5Z"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently selected movie..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdj-u2-Ppr">
+                                <rect key="frame" x="36" y="414" width="342" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="a66-BN-xez"/>
+                                    <constraint firstAttribute="width" constant="342" id="taC-YH-0g4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -266,20 +274,27 @@
                                 <rect key="frame" x="20" y="195" width="374" height="186"/>
                                 <color key="backgroundColor" red="0.95354956390000001" green="0.81153225900000003" blue="0.90651267769999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="364" id="2NL-HR-aNU"/>
-                                    <constraint firstAttribute="height" constant="186" id="ecz-o1-NFM"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="155" id="enk-6E-Ayy"/>
-                                    <constraint firstAttribute="width" constant="374" id="p50-VD-fTo"/>
+                                    <constraint firstAttribute="width" constant="374" id="GP0-bw-Gio"/>
+                                    <constraint firstAttribute="height" constant="186" id="Glk-6x-va2"/>
                                 </constraints>
                             </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ntu-AZ-XFc">
+                                <rect key="frame" x="24" y="473" width="367" height="109"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="367" id="FTX-N9-dPB"/>
+                                    <constraint firstAttribute="height" constant="109" id="Lu7-su-0Ql"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <color key="textColor" red="0.082996197044849396" green="0.065921299159526825" blue="0.83043509721755981" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEh-Iw-YTZ">
-                                <rect key="frame" x="142" y="481" width="130" height="49"/>
+                                <rect key="frame" x="142" y="625" width="130" height="49"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="KA5-D0-yOn"/>
-                                    <constraint firstAttribute="width" constant="130" id="eJw-jN-8vN"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="wrF-rI-sIf"/>
-                                    <constraint firstAttribute="height" constant="49" id="zcQ-NK-Xyn"/>
+                                    <constraint firstAttribute="width" constant="130" id="RaH-NC-bNs"/>
+                                    <constraint firstAttribute="height" constant="49" id="ne0-re-ebD"/>
                                 </constraints>
                                 <state key="normal" title="Delete My Movie"/>
                                 <connections>
@@ -289,15 +304,21 @@
                         </subviews>
                         <color key="backgroundColor" red="0.88048652360000002" green="0.92722022339999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="OWr-TI-uxM" firstAttribute="top" secondItem="ul8-tG-reZ" secondAttribute="top" constant="21" id="0Zt-qg-yBA"/>
-                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="G04-ep-wEG" secondAttribute="trailing" constant="20" id="EGx-dM-htP"/>
-                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="142" id="Imf-vM-WFO"/>
-                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="top" secondItem="G04-ep-wEG" secondAttribute="bottom" constant="100" id="MbX-Tb-m9V"/>
-                            <constraint firstItem="OWr-TI-uxM" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="36" id="Szo-86-Gac"/>
-                            <constraint firstItem="G04-ep-wEG" firstAttribute="top" secondItem="OWr-TI-uxM" secondAttribute="bottom" constant="45" id="WMS-Wa-8yc"/>
-                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="OWr-TI-uxM" secondAttribute="trailing" constant="36" id="qeM-Iz-t5h"/>
-                            <constraint firstItem="G04-ep-wEG" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="20" id="zB4-Lv-dC1"/>
-                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="aEh-Iw-YTZ" secondAttribute="trailing" constant="142" id="zbi-Sa-eKa"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="OWr-TI-uxM" secondAttribute="trailing" constant="36" id="65w-ez-ZUL"/>
+                            <constraint firstItem="Ntu-AZ-XFc" firstAttribute="top" secondItem="Tdj-u2-Ppr" secondAttribute="bottom" constant="18" id="CXv-kA-bep"/>
+                            <constraint firstItem="OWr-TI-uxM" firstAttribute="top" secondItem="ul8-tG-reZ" secondAttribute="top" constant="21" id="MRF-Rs-xWy"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="Ntu-AZ-XFc" secondAttribute="trailing" constant="23" id="NND-gU-lLo"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="Tdj-u2-Ppr" secondAttribute="trailing" constant="36" id="OkO-6j-0J2"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="G04-ep-wEG" secondAttribute="trailing" constant="20" id="QZc-af-Wln"/>
+                            <constraint firstItem="G04-ep-wEG" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="20" id="QrI-af-jD1"/>
+                            <constraint firstItem="Ntu-AZ-XFc" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="24" id="Zy9-mg-uUH"/>
+                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="top" secondItem="Ntu-AZ-XFc" secondAttribute="bottom" constant="43" id="byG-wh-5y5"/>
+                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="142" id="cd7-jr-jUq"/>
+                            <constraint firstItem="Tdj-u2-Ppr" firstAttribute="top" secondItem="G04-ep-wEG" secondAttribute="bottom" constant="33" id="d32-5u-bX0"/>
+                            <constraint firstItem="OWr-TI-uxM" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="36" id="hhS-GM-QlF"/>
+                            <constraint firstItem="Tdj-u2-Ppr" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="36" id="hoG-ye-AMc"/>
+                            <constraint firstItem="G04-ep-wEG" firstAttribute="top" secondItem="OWr-TI-uxM" secondAttribute="bottom" constant="45" id="r53-3T-1zh"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="aEh-Iw-YTZ" secondAttribute="trailing" constant="142" id="y7S-ga-opX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ul8-tG-reZ"/>
                     </view>
@@ -306,6 +327,7 @@
                         <outlet property="deleteMyMovieButtonObj" destination="aEh-Iw-YTZ" id="rVv-j2-oxx"/>
                         <outlet property="myMoviePicker" destination="G04-ep-wEG" id="Lgb-BO-Gpp"/>
                         <outlet property="myView" destination="bqg-jU-ccT" id="ZgH-ct-cOc"/>
+                        <outlet property="pickerPickedLabel" destination="Ntu-AZ-XFc" id="GnD-sZ-R0X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8lz-NC-0qb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
