@@ -30,11 +30,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     
     var pickerTypeIndex = 0
     var pickerLabel = UILabel()
-    
-//    var mymovies = [
-//        (name: "", year: "", type: "", imdb: "", poster: "", comments: "")
-//    ]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,23 +41,11 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataManager = appDelegate.persistentContainer.viewContext
         
-        //mymovies.removeAll()
         listArray.removeAll()
         fetchData()
-        
-        //.. this code is used to set initial values before pickers move
-//        self.pickerLabel.text = self.mymovies[0].name
-//        myMovieChosen = mymovies[0].name
-//        myMovieYearChosen = mymovies[0].year
-//        myMovieTypeChosen = mymovies[0].type
-//        myMovieIMDBChosen = mymovies[0].imdb
-//        myMovieCommentsChosen = mymovies[0].comments
+       
         self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
-//        myMovieChosen = mymovies[0].name
-//        myMovieYearChosen = mymovies[0].year
-//        myMovieTypeChosen = mymovies[0].type
-//        myMovieIMDBChosen = mymovies[0].imdb
-//        myMovieCommentsChosen = mymovies[0].comments
+
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -108,12 +92,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         //    trying to delete the last row -> index out of bounds
         pickerTypeIndex = myMoviePicker.selectedRow(inComponent: 0)
         print("@@@@@@@@@ pickerTypeIndex AFTER = \(pickerTypeIndex)")
-        
-//        self.myMovieChosen = self.mymovies[self.pickerTypeIndex].name
-//        self.myMovieYearChosen = self.mymovies[self.pickerTypeIndex].year
-//        self.myMovieTypeChosen = self.mymovies[self.pickerTypeIndex].type
-//        self.myMovieIMDBChosen = self.mymovies[self.pickerTypeIndex].imdb
-//        self.myMovieCommentsChosen = self.mymovies[self.pickerTypeIndex].comments
+ 
         self.myMovieChosen = self.listArray[self.pickerTypeIndex].value(forKey: "name") as! String
         self.myMovieYearChosen = self.listArray[self.pickerTypeIndex].value(forKey: "year") as! String
         self.myMovieTypeChosen = self.listArray[self.pickerTypeIndex].value(forKey: "type") as! String
@@ -129,26 +108,12 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             })
             
         let okAction = UIAlertAction(title: "Delete", style: .default, handler: { action -> Void in
-            
-            //.. remove the key
+          
             print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieCommentsChosen)")
-            
-//            //*********
-//            print("$$$ mymovies BEFORE key removed = \(self.mymovies)")
-//            self.mymovies.remove(at: self.pickerTypeIndex)
-//            print("$$$ mymovies AFTER key removed = \(self.mymovies)")
-//
-//            self.mymovies = self.mymovies.sorted { $0.name < $1.name }
-//            print("$$$ mymovies AFTER key removed and after SORT = \(self.mymovies)")
-//
-//            //.. redisplay the "newly updated" picker (since a row was deleted)
-//            self.myMoviePicker.reloadAllComponents()
-//            self.myView.reloadInputViews()
             
             //.. set the String of what you want to delete
             let deleteName = self.myMovieChosen
             let deleteComments = self.myMovieCommentsChosen
-            
             let deleteImdb: NSString = self.myMovieIMDBChosen as NSString
             
             print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
@@ -178,7 +143,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         
     }
     
-    //.. read from db
+    //.. read from db - get all rows
     func fetchData() {
         
         //mymovies.removeAll()
@@ -206,22 +171,9 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             if !listArray.isEmpty {
                 //.. for each item in the array, do the following..
                 for item in listArray {
-                    //.. get the value for "name, year, type, imdb, poster, comments" (attribute/field "name", etc. in xcdatamodeld) and set it equal to var product
-                    //var product = item.value(forKey: "about") as! String
-                    //                let dName = item.value(forKey: "name") as! String
-                    //                let dYear = item.value(forKey: "year") as! String
-                    //                let dType = item.value(forKey: "type") as! String
-                    //                let dImdb = item.value(forKey: "imdb") as! String
-                    //                let dPoster = item.value(forKey: "poster") as! String
-                    //                let dComments = item.value(forKey: "comments") as! String
-                    
                     let myMovieNameRetrieved = item.value(forKey: "name") as! String
                     print("====> myMovieNameRetrieved in listArray/CoreData: \(myMovieNameRetrieved)")
-                    
-                    //                mymovies.append((name: dName, year: dYear, type: dType, imdb: dImdb, poster: dPoster, comments: dComments))
-            }
-            
-                
+                }
             }
         } catch {
             print ("Error retrieving data")

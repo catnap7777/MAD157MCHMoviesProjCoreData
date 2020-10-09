@@ -171,7 +171,7 @@ class MovieDetailVC: UIViewController {
         
     } //.. end saveMyButtonPressed
     
-    //.. read from db - FOR THE PARTICULAR MOVIE ROW THAT'S BEING SEARCH FOR TO SEE
+    //.. read from db - FOR A PARTICULAR MOVIE ROW THAT'S BEING SEARCH FOR TO SEE
     //..   IF IT'S ALREADY IN THE DB
     func fetchData() {
         
