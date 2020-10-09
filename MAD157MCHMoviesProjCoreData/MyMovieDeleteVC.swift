@@ -153,31 +153,12 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             
             print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
             
-            //.. use the index for the picker to remove the correct "row"
-            //self.listArray.remove(at: self.pickerTypeIndex)
-            
-            ///****************************************************
-//            //.. go through entire array to search for the string you want to delete (deleteItem above)
-//            for item in self.listArray {
-//                //.. if the value for the attribute/field "name" equals deleteItemName...
-//                if (item.value(forKey: "imdb") as! String == deleteImdb) {
-//                    //.. try to delete the row from what's there
-//                    self.dataManager.delete(item)
-//                }
-            
-//            let listArrayDeleteItem: NSManagedObject = self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! NSManagedObject
-            
-//            if (self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! NSString) == deleteImdb {
-                //.. try to delete the row from what's there
-                //.. use the index for the picker to remove the correct "row"
-                //self.listArray.remove(at: self.pickerTypeIndex)
+            //.. delete the row from the array??
             self.dataManager.delete(self.listArray[self.pickerTypeIndex])
             
-                //self.listArray.remove(at: self.pickerTypeIndex)
-//            }
-            //.. resave the data... appDelegate knows that there were changes and adjusts accordingly
+            //.. resave the data... appDelegate knows that there were changes and adjusts accordingly??
                 do {
-                    //**** not sure why you're re-saving this ??? Doesn't the above do that already?
+                    //**** Ask Bill ::: not sure why you're re-saving this ??? Doesn't the above do that already?
                     //.. re-save to the db
                     try self.dataManager.save()
                     //.. redisplay the "newly updated" picker (since a row was deleted)
@@ -188,9 +169,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                 } catch {
                     print ("Error deleting data")
                 }
-
-//            }
-            
             
         })
             
