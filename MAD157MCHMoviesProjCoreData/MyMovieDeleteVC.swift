@@ -70,9 +70,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         pickerLabel = UILabel()
     
         pickerLabel.text = (self.listArray[row].value(forKey: "name") as! String)
-        //pickerLabel.text = mymovies[row].name
         
-        print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[row].value(forKey: "name") as! String))")
+        //pickerLabel.text = mymovies[row].name
+       
+        print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[row].value(forKey: "name") as? String) ?? "again - what is happening")")
 
         if UIDevice.current.userInterfaceIdiom == .pad {
             pickerLabel.font = UIFont.systemFont(ofSize: 18)
@@ -127,7 +128,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
             
             print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
             
-            //.. delete the row from the array??
+            //.. delete the row from the array?? Doesn't seem to really delete until you save again
             self.dataManager.delete(self.listArray[self.pickerTypeIndex])
             
             //.. resave the data... appDelegate knows that there were changes and adjusts accordingly??
@@ -135,10 +136,15 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                     //**** Ask Bill ::: not sure why you're re-saving this ??? Doesn't the above do that already?
                     //.. re-save to the db
                     try self.dataManager.save()
-                    //.. redisplay the "newly updated" picker (since a row was deleted)
-                    //.. do you need to do this or just redisplay?
+                    
+                    //.. Redisplay the "newly updated" picker (since a row was deleted)
+                    //.. You seem to need to refetch because otherwise listArray isn't set right with picker
+                    //..   I get errors unwrapping nils
+                
                     self.listArray.removeAll()
                     self.fetchData()
+                    print("******* listArray after save and after re-fetch of data ==== \(self.listArray)")
+                    
                     self.myMoviePicker.reloadAllComponents()
                     self.myView.reloadInputViews()
                 } catch {
