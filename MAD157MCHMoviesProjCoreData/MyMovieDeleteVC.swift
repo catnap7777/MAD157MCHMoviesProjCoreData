@@ -50,9 +50,8 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //.. not sure if I need to do this or just redisplay
-//        listArray.removeAll()
-//        fetchData()
+        listArray.removeAll()
+        fetchData()
         
         self.myMoviePicker.reloadAllComponents()
         self.myView.reloadInputViews()

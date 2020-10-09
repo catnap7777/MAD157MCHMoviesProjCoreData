@@ -134,7 +134,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         do{
             //.. try to save in db
             try self.dataManager.save()
-            self.fetchData()
+            //self.fetchData()
             self.myMoviesTableViewObj.reloadData()
         } catch{
             print ("Error saving updated data")
