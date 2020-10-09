@@ -49,8 +49,13 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        listArray.removeAll()
-        fetchData()
+        
+        //.. not sure if I need to do this or just redisplay
+//        listArray.removeAll()
+//        fetchData()
+        
+        self.myMoviePicker.reloadAllComponents()
+        self.myView.reloadInputViews()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -132,6 +137,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                     //.. re-save to the db
                     try self.dataManager.save()
                     //.. redisplay the "newly updated" picker (since a row was deleted)
+                    //.. do you need to do this or just redisplay?
                     self.listArray.removeAll()
                     self.fetchData()
                     self.myMoviePicker.reloadAllComponents()
