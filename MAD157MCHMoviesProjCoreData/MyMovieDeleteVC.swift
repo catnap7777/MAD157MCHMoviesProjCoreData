@@ -156,8 +156,6 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
     //.. read from db - get all rows
     func fetchData() {
         
-        //mymovies.removeAll()
-        
         //.. from https://stackoverflow.com/questions/35417012/sorting-nsmanagedobject-array
 //        let fetchRequest = NSFetchRequest(entityName: CoreDataValues.EntityName)
 //        let sortDescriptor = NSSortDescriptor(key: CoreDataValues.CreationDateKey, ascending: true)
