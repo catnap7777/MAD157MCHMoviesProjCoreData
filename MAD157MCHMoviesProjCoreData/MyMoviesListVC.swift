@@ -42,8 +42,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-
+    override func viewWillAppear(_ animated: Bool) {
         fetchData()
         self.myMoviesTableViewObj.reloadData()
     }
@@ -135,6 +134,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         do{
             //.. try to save in db
             try self.dataManager.save()
+            self.fetchData()
+            self.myMoviesTableViewObj.reloadData()
         } catch{
             print ("Error saving updated data")
             print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
@@ -150,6 +151,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         alert.addAction(okAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true , completion: nil)
+        
     }
     
     //.. read from db - get all data

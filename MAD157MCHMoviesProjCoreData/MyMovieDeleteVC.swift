@@ -48,6 +48,11 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        listArray.removeAll()
+        fetchData()
+    }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
