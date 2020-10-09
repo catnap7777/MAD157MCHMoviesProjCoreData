@@ -69,17 +69,17 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         
         pickerLabel = UILabel()
     
-        pickerLabel.text = (self.listArray[row].value(forKey: "name") as! String)
+        pickerLabel.text = (self.listArray[row].value(forKey: "year") as! String) + "/" + (self.listArray[row].value(forKey: "type") as! String) + " - " + (self.listArray[row].value(forKey: "name") as! String) 
         
         //pickerLabel.text = mymovies[row].name
        
         print("pickerlabel \(String(describing: pickerLabel.text)) - \((self.listArray[row].value(forKey: "name") as? String) ?? "again - what is happening")")
 
         if UIDevice.current.userInterfaceIdiom == .pad {
-            pickerLabel.font = UIFont.systemFont(ofSize: 18)
+            pickerLabel.font = UIFont.systemFont(ofSize: 14)
             //pickerLabel.text = "Row \(row)"  //.. not needed bc set above
         } else if UIDevice.current.userInterfaceIdiom == .phone {
-            pickerLabel.font = UIFont.systemFont(ofSize: 18)
+            pickerLabel.font = UIFont.systemFont(ofSize: 14)
 //            pickerLabel.font = UIFont.systemFont(ofSize: 14)
             //pickerLabel.text = "Row \(row)"  //.. not needed bc set above
         }

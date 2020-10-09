@@ -262,8 +262,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G04-ep-wEG">
+                                <rect key="frame" x="20" y="195" width="374" height="186"/>
+                                <color key="backgroundColor" red="0.95354956390000001" green="0.81153225900000003" blue="0.90651267769999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="364" id="2NL-HR-aNU"/>
+                                    <constraint firstAttribute="height" constant="186" id="ecz-o1-NFM"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="155" id="enk-6E-Ayy"/>
+                                    <constraint firstAttribute="width" constant="374" id="p50-VD-fTo"/>
+                                </constraints>
+                            </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEh-Iw-YTZ">
-                                <rect key="frame" x="137" y="463" width="130" height="49"/>
+                                <rect key="frame" x="142" y="481" width="130" height="49"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="KA5-D0-yOn"/>
@@ -276,28 +286,18 @@
                                     <action selector="deleteMyMoviePressed:" destination="XHv-YA-7cl" eventType="touchUpInside" id="Van-Rf-otW"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G04-ep-wEG">
-                                <rect key="frame" x="25" y="158" width="364" height="155"/>
-                                <color key="backgroundColor" red="0.95354956390000001" green="0.81153225900000003" blue="0.90651267769999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="364" id="2NL-HR-aNU"/>
-                                    <constraint firstAttribute="height" constant="155" id="ecz-o1-NFM"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="155" id="enk-6E-Ayy"/>
-                                    <constraint firstAttribute="width" constant="364" id="p50-VD-fTo"/>
-                                </constraints>
-                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="0.88048652360000002" green="0.92722022339999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="OWr-TI-uxM" firstAttribute="top" secondItem="ul8-tG-reZ" secondAttribute="top" constant="21" id="0Zt-qg-yBA"/>
-                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="G04-ep-wEG" secondAttribute="trailing" constant="25" id="EGx-dM-htP"/>
-                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="137" id="Imf-vM-WFO"/>
-                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="top" secondItem="G04-ep-wEG" secondAttribute="bottom" constant="150" id="MbX-Tb-m9V"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="G04-ep-wEG" secondAttribute="trailing" constant="20" id="EGx-dM-htP"/>
+                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="142" id="Imf-vM-WFO"/>
+                            <constraint firstItem="aEh-Iw-YTZ" firstAttribute="top" secondItem="G04-ep-wEG" secondAttribute="bottom" constant="100" id="MbX-Tb-m9V"/>
                             <constraint firstItem="OWr-TI-uxM" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="36" id="Szo-86-Gac"/>
-                            <constraint firstItem="G04-ep-wEG" firstAttribute="top" secondItem="OWr-TI-uxM" secondAttribute="bottom" constant="8" id="WMS-Wa-8yc"/>
+                            <constraint firstItem="G04-ep-wEG" firstAttribute="top" secondItem="OWr-TI-uxM" secondAttribute="bottom" constant="45" id="WMS-Wa-8yc"/>
                             <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="OWr-TI-uxM" secondAttribute="trailing" constant="36" id="qeM-Iz-t5h"/>
-                            <constraint firstItem="G04-ep-wEG" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="25" id="zB4-Lv-dC1"/>
-                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="aEh-Iw-YTZ" secondAttribute="trailing" constant="147" id="zbi-Sa-eKa"/>
+                            <constraint firstItem="G04-ep-wEG" firstAttribute="leading" secondItem="ul8-tG-reZ" secondAttribute="leading" constant="20" id="zB4-Lv-dC1"/>
+                            <constraint firstItem="ul8-tG-reZ" firstAttribute="trailing" secondItem="aEh-Iw-YTZ" secondAttribute="trailing" constant="142" id="zbi-Sa-eKa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ul8-tG-reZ"/>
                     </view>
