@@ -45,8 +45,8 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         listArray.removeAll()
         fetchData()
        
-        //.. for picker itself
-        self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
+//        //.. for picker itself
+//        self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as? String)
        
     }
     
