@@ -46,8 +46,8 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         fetchData()
        
         //.. for picker itself
-        self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
-       
+//        self.pickerLabel.text = (self.listArray[0].value(forKey: "name") as! String)
+//       
     }
     
     override func viewWillAppear(_ animated: Bool) {
