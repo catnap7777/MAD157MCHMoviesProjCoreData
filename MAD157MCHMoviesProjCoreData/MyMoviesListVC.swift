@@ -154,6 +154,30 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
     }
     
+    //.. to swipe delete a tableView row
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let action = UIContextualAction(style: .destructive, title: "delete") { (action, view, completionHandler) in
+         
+            let movieToRemove = self.listArray[indexPath.row]
+            
+            self.dataManager.delete(movieToRemove)
+            
+            do {
+                try self.dataManager.save()
+            } catch {
+                print("...was not able to swipe/delete row - \(movieToRemove)")
+            }
+            
+            self.fetchData()
+            self.myMoviesTableViewObj.reloadData()
+           
+        }
+        
+        return UISwipeActionsConfiguration(actions: [action])
+        
+    }
+    
     //.. read from db - get all data
     func fetchData() {
         
