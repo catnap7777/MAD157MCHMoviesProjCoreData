@@ -170,6 +170,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
             
             self.fetchData()
+            self.myMoviesTableViewObj.reloadData()
            
         }
         
