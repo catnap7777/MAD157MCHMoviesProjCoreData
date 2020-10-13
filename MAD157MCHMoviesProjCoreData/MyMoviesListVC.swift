@@ -102,7 +102,7 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
         
-        var mmRowSelected = listArray[indexPath.row]
+        let mmRowSelected = listArray[indexPath.row]
         
         let movieNameSelected = mmRowSelected.value(forKey: "name") as! String
         let movieCommentsSelected = mmRowSelected.value(forKey: "comments") as! String
@@ -141,9 +141,9 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
             print("$$$ MovieDetailVC ..tried to save coreData but it didn't work")
         }
                 
-        print("$$$$$$ updatedRow name = \(self.listArray[indexPath.row].value(forKey: "name"))")
-        print("$$$$$$ updatedRow imdb = \(self.listArray[indexPath.row].value(forKey: "imdb"))")
-        print("$$$$$$ updatedRow comments = \(self.listArray[indexPath.row].value(forKey: "comments"))")
+        print("$$$$$$ updatedRow name = \(String(describing: self.listArray[indexPath.row].value(forKey: "name")))")
+        print("$$$$$$ updatedRow imdb = \(String(describing: self.listArray[indexPath.row].value(forKey: "imdb")))")
+        print("$$$$$$ updatedRow comments = \(String(describing: self.listArray[indexPath.row].value(forKey: "comments")))")
         
        })
 
