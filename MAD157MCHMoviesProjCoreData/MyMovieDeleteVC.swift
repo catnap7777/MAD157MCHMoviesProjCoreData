@@ -94,8 +94,10 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         
         pickerTypeIndex = myMoviePicker.selectedRow(inComponent: 0)
         
-        //.. info that goes in the label for the row that's picked
-        pickerPickedLabel.text = (self.listArray[row].value(forKey: "year") as! String) + "/" + (self.listArray[row].value(forKey: "type") as! String) + " - " + (self.listArray[row].value(forKey: "name") as! String)
+        if !listArray.isEmpty {
+            //.. info that goes in the label for the row that's picked
+            pickerPickedLabel.text = (self.listArray[row].value(forKey: "year") as! String) + "/" + (self.listArray[row].value(forKey: "type") as! String) + " - " + (self.listArray[row].value(forKey: "name") as! String)
+        }
         
     }
 
@@ -110,35 +112,36 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
         pickerTypeIndex = myMoviePicker.selectedRow(inComponent: 0)
         print("@@@@@@@@@ pickerTypeIndex AFTER = \(pickerTypeIndex)")
  
-        self.myMovieChosen = self.listArray[self.pickerTypeIndex].value(forKey: "name") as! String
-        self.myMovieYearChosen = self.listArray[self.pickerTypeIndex].value(forKey: "year") as! String
-        self.myMovieTypeChosen = self.listArray[self.pickerTypeIndex].value(forKey: "type") as! String
-        self.myMovieIMDBChosen = self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! String
-        self.myMovieCommentsChosen = self.listArray[self.pickerTypeIndex].value(forKey: "comments") as! String
-        
-        let msg = "Are you sure you want to delete... \n\n- Movie: \(myMovieChosen) \n\n- Year: \(myMovieYearChosen) \n- Type: \(myMovieTypeChosen) \n- Imdb: \(myMovieIMDBChosen) \n- Comments: \(myMovieCommentsChosen)\n???"
+        if !listArray.isEmpty {
+            self.myMovieChosen = self.listArray[self.pickerTypeIndex].value(forKey: "name") as! String
+            self.myMovieYearChosen = self.listArray[self.pickerTypeIndex].value(forKey: "year") as! String
+            self.myMovieTypeChosen = self.listArray[self.pickerTypeIndex].value(forKey: "type") as! String
+            self.myMovieIMDBChosen = self.listArray[self.pickerTypeIndex].value(forKey: "imdb") as! String
+            self.myMovieCommentsChosen = self.listArray[self.pickerTypeIndex].value(forKey: "comments") as! String
             
-        let alert = UIAlertController(title: "Confirm", message: msg, preferredStyle: .alert)
+            let msg = "Are you sure you want to delete... \n\n- Movie: \(myMovieChosen) \n\n- Year: \(myMovieYearChosen) \n- Type: \(myMovieTypeChosen) \n- Imdb: \(myMovieIMDBChosen) \n- Comments: \(myMovieCommentsChosen)\n???"
             
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { action -> Void in
-            //Just dismiss the action sheet
+            let alert = UIAlertController(title: "Confirm", message: msg, preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { action -> Void in
+                //Just dismiss the action sheet
             })
             
-        let okAction = UIAlertAction(title: "Delete", style: .default, handler: { action -> Void in
-          
-            print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieCommentsChosen)")
-            
-            //.. set the String of what you want to delete
-            let deleteName = self.myMovieChosen
-            let deleteComments = self.myMovieCommentsChosen
-            let deleteImdb: NSString = self.myMovieIMDBChosen as NSString
-            
-            print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
-            
-            //.. delete the row from the array?? Doesn't seem to really delete until you save again
-            self.dataManager.delete(self.listArray[self.pickerTypeIndex])
-            
-            //.. resave the data... appDelegate knows that there were changes and adjusts accordingly??
+            let okAction = UIAlertAction(title: "Delete", style: .default, handler: { action -> Void in
+                
+                print("movie to delete = \(self.myMovieChosen)  \(self.myMovieIMDBChosen)  \(self.myMovieCommentsChosen)")
+                
+                //.. set the String of what you want to delete
+                let deleteName = self.myMovieChosen
+                let deleteComments = self.myMovieCommentsChosen
+                let deleteImdb: NSString = self.myMovieIMDBChosen as NSString
+                
+                print("111122223333 === movie to delete = \(deleteName) ::: comments = \(deleteComments) ::: Imdb = \(deleteImdb)")
+                
+                //.. delete the row from the array?? Doesn't seem to really delete until you save again
+                self.dataManager.delete(self.listArray[self.pickerTypeIndex])
+                
+                //.. resave the data... appDelegate knows that there were changes and adjusts accordingly??
                 do {
                     //**** Ask Bill ::: not sure why you're re-saving this ??? Doesn't the above do that already?
                     //.. re-save to the db
@@ -147,7 +150,7 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                     //.. Redisplay the "newly updated" picker (since a row was deleted)
                     //.. You seem to need to refetch because otherwise listArray isn't set right with picker
                     //..   I get errors unwrapping nils
-                
+                    
                     self.listArray.removeAll()
                     self.fetchData()
                     print("******* listArray after save and after re-fetch of data ==== \(self.listArray)")
@@ -158,12 +161,14 @@ class MyMovieDeleteVC: UIViewController, UIPickerViewDataSource, UIPickerViewDel
                 } catch {
                     print ("Error deleting data")
                 }
+                
+            })
             
-        })
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self .present(alert, animated: true, completion: nil )
             
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        self .present(alert, animated: true, completion: nil )
+        }
         
     }
     
