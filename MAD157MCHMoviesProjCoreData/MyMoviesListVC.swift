@@ -134,6 +134,8 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         //.. try to update the listArray and then save it
         self.listArray[indexPath.row].setValue(savedText2, forKey: "comments")
+        //.. next line does the same thing as above
+        //mmRowSelected.setValue(savedText2, forKey: "comments")
         
         //.. Now save the "new row" with the new comments --- it would be better to just update it
         do{
