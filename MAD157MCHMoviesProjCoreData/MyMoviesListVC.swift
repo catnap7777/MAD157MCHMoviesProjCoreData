@@ -110,9 +110,14 @@ class MyMovieListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         let alert = UIAlertController(title: "Your Choice", message: "\(movieNameSelected)", preferredStyle: .alert)
 
+        //.. Placeholder text only shows up if there were no previous comments stored in CoreData for this row
         alert.addTextField(configurationHandler: {(textField) in textField.placeholder = "Enter new comments here..."
             //textField.isSecureTextEntry = true
         })
+        
+        //.. Next two lines file the alert text box with the comments that were previously stored in CoreData - user can therefore update or add more comments
+        let textfield = alert.textFields![0]
+        textfield.text = movieCommentsSelected
 
         //.. defines Cancel button
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { action -> Void in
